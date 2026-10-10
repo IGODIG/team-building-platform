@@ -1,15 +1,37 @@
-# Team-building Platform · Website V1
+# Team-building platform · Astro + TypeScript
 
-Site public demonstrativ pentru servicii de team-building în Republica Moldova.
+Public-facing demo website for a team-building business. Built with Astro, TypeScript, and responsive CSS.
 
-## Rulare
-Deschide `index.html` în browser sau pornește un server static:
-`python -m http.server 8000`
+## Stack
+- Astro 5, static output
+- TypeScript with Astro strict config
+- Reusable Astro components and typed content data
+- Responsive CSS, accessible mobile navigation, category filtering
+- Static activity and package detail routes generated from typed data
 
-## Include
-- Pagini publice: Acasă, Activități, Pachete, Cum funcționează, Cere o ofertă, Configurator, Carieră, Contact și pagini informative.
-- Design responsive, navigare mobilă, filtre și formulare cu validare în browser.
-- Date și prețuri demonstrative.
+## Run locally
+```bash
+npm install
+npm run dev
+```
 
-## Înainte de lansare
-Numele TEAMFLOW este provizoriu. Înlocuiește datele de contact, verifică prețurile și imaginile, iar paginile juridice trebuie validate. Formularele nu transmit și nu salvează date. Nu există încă backend, CRM, autentificare sau plăți.
+## Validate and build
+```bash
+npm run check
+npm run build
+npm run preview
+```
+
+## Current scope
+This repository contains the public website only. It does not include a management dashboard, authentication, database, CRM, real reservations, payment processing, or a connected form backend. Forms are client-side demos and explicitly tell the visitor that information was not transmitted or saved.
+
+## Before publishing
+- Confirm the final brand name and logo. “Teamflow” is a temporary demo identity, not a confirmed brand.
+- Replace sample imagery with licensed/owned photos of real activities.
+- Replace contact placeholders.
+- Confirm package inclusions and prices. All package prices are examples in MDL, not commercial offers.
+- Have legal pages reviewed and adapted to the real operator and applicable law.
+- Connect forms to a real, secured backend before accepting customer requests.
+
+## Automated build
+GitHub Actions runs `npm install` and `npm run build` on pushes and pull requests to `main`.
