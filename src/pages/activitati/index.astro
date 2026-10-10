@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ActivityCard from '../../components/ActivityCard.astro';
+import { activities } from '../../data/content';
+---
+<BaseLayout title="Activități de team building | Teamflow" description="Explorează activități de team building pentru echipe mici și mari." active="activities">
+  <section class="page-hero"><div class="container"><p class="eyebrow">ACTIVITĂȚI</p><h1>Găsește formatul<br /><em>echipei tale.</em></h1><p>De la competiții energice la exerciții de colaborare. Alege direcția și adaptăm detaliile împreună.</p></div></section>
+  <section class="section-pad"><div class="container">
+    <div class="filter-bar" data-activity-filters><span class="eyebrow">FILTRARE</span><button class="filter-button is-active" data-filter="all">Toate</button><button class="filter-button" data-filter="Competiție">Competiție</button><button class="filter-button" data-filter="Outdoor">Outdoor</button><button class="filter-button" data-filter="Colaborare">Colaborare</button><button class="filter-button" data-filter="Fun">Fun</button></div>
+    <div class="activity-grid catalog-grid">{activities.map((activity) => <div data-activity-card data-category={activity.category}><ActivityCard activity={activity} /></div>)}</div>
+    <p class="empty-state" data-empty-state hidden>Nu am găsit activități în această categorie.</p>
+  </div></section>
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    const cards = document.querySelectorAll<HTMLElement>('[data-activity-card]');
+    const empty = document.querySelector<HTMLElement>('[data-empty-state]');
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      buttons.forEach((item) => item.classList.toggle('is-active', item === button));
+      let visible = 0;
+      cards.forEach((card) => {
+        const show = button.dataset.filter === 'all' || card.dataset.category === button.dataset.filter;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      if (empty) empty.hidden = visible > 0;
+    }));
+  </script>
+</BaseLayout>
