@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { packages } from '../../data/content';
+export function getStaticPaths() {
+  return packages.map((pack) => ({ params: { slug: pack.slug }, props: { pack } }));
+}
+const { pack } = Astro.props;
+---
+<BaseLayout title={`Pachet ${pack.name} | Teamflow`} description={pack.summary} active="packages">
+  <section class="page-hero"><div class="container"><a class="back-link" href="/pachete/">← Toate pachetele</a><p class="eyebrow">PACHET {pack.name.toUpperCase()}</p><h1>{pack.name}<em>.</em></h1><p>{pack.summary}</p><div class="detail-facts"><span>{pack.duration}</span><span>{pack.people}</span></div><div class="detail-price">MDL {pack.price.toLocaleString('ro-MD')} <small>/ {pack.unit} · preț demonstrativ</small></div><a class="button button-dark" href="/solicita-oferta/">Solicită oferta finală <span>↗</span></a></div></section>
+  <section class="section-pad"><div class="container detail-columns"><div><p class="eyebrow">CE PRIMEȘTI</p><h2>Totul începe cu <span>un plan clar.</span></h2><p class="body-large">Acest pachet este un exemplu de structură. Oferta finală va ține cont de numărul de participanți, locație, obiective și logistică.</p></div><div class="includes-panel"><h3>Inclus în pachet</h3><ul>{pack.includes.map((item) => <li><span>✓</span>{item}</li>)}</ul><p class="demo-note">Prețul și conținutul trebuie confirmate înainte de publicare comercială.</p></div></div></section>
+</BaseLayout>
