@@ -16,6 +16,8 @@ npm run dev
 ```
 
 ## Validate and build
+
+The GitHub Actions workflow runs the same production build for pushes to `main` and pull requests targeting `main`.
 ```bash
 npm run check
 npm run build
