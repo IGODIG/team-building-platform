@@ -1,0 +1,12 @@
+---
+const { pack } = Astro.props;
+---
+<article class:list={['package-card', { 'package-featured': pack.featured }]}>
+  {pack.featured && <span class="package-tag">Cel mai ales în demo</span>}
+  <p class="eyebrow">PACHET {pack.name.toUpperCase()}</p><h3>{pack.name}</h3><p class="package-summary">{pack.summary}</p>
+  <div class="package-price"><span class="currency">MDL</span> {pack.price.toLocaleString('ro-MD')} <small>/ {pack.unit}</small></div>
+  <p class="package-meta">{pack.duration} <span>·</span> {pack.people}</p>
+  <ul>{pack.includes.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
+  <a class:list={['button', pack.featured ? 'button-lime' : 'button-outline']} href={`/pachete/${pack.slug}/`}>Vezi pachetul <span aria-hidden="true">↗</span></a>
+  <p class="demo-note">Preț demonstrativ, de confirmat în oferta finală.</p>
+</article>
