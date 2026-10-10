@@ -1,6 +1,11 @@
 ---
 import type { Package } from '../data/content';
-const { pack }: { pack: Package } = Astro.props;
+
+interface Props {
+  pack: Package;
+}
+
+const { pack } = Astro.props;
 ---
 <article class:list={['package-card', { 'package-featured': pack.featured }]}>
   {pack.featured && <span class="package-tag">Cel mai ales în demo</span>}
