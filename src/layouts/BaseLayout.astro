@@ -38,6 +38,37 @@ const { title = 'Team building pentru echipe reale', description = 'Activități
         toggle.setAttribute('aria-expanded', String(!open));
         menu?.classList.toggle('is-open', !open);
       });
+      // Reveal content only when JavaScript is available; without JS, content remains visible.
+      const revealTargets = document.querySelectorAll<HTMLElement>(
+        '.intro-grid, .section-heading, .activity-card, .benefit-item, .feature-image, .feature-copy, .package-card, .gallery-grid img, .quote-inner, .final-cta-inner, .step-row, .contact-grid article'
+      );
+      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('reveal-ready');
+        revealTargets.forEach((element, index) => {
+          element.classList.add('reveal-on-scroll');
+          element.style.transitionDelay = `${Math.min(index % 3, 2) * 55}ms`;
+        });
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -35px 0px' });
+        revealTargets.forEach((element) => revealObserver.observe(element));
+      }
+      toggle?.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-label', 'Deschide meniul');
+          menu?.classList.remove('is-open');
+          toggle.focus();
+        }
+      });
+      toggle?.addEventListener('click', () => {
+        toggle.setAttribute('aria-label', toggle.getAttribute('aria-expanded') === 'true' ? 'Închide meniul' : 'Deschide meniul');
+      });
       document.querySelectorAll<HTMLFormElement>('[data-demo-form]').forEach((form) => {
         form.addEventListener('submit', (event) => {
           event.preventDefault();
