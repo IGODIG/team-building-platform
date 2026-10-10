@@ -1,0 +1,7 @@
+---
+const { activity } = Astro.props;
+---
+<article class="activity-card">
+  <a class="activity-image" href={`/activitati/${activity.slug}/`}><img src={activity.image} alt={activity.title} loading="lazy" /><span class="image-arrow" aria-hidden="true">↗</span></a>
+  <div class="activity-card-body"><div class="eyebrow">{activity.category} <span>·</span> {activity.duration}</div><h3><a href={`/activitati/${activity.slug}/`}>{activity.title}</a></h3><p>{activity.summary}</p><a class="text-link" href={`/activitati/${activity.slug}/`}>Descoperă activitatea <span aria-hidden="true">→</span></a></div>
+</article>
