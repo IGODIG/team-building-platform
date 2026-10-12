@@ -420,3 +420,120 @@ body { overflow-x: clip; }
     transition: none;
   }
 }
+
+
+/* Align homepage imagery into a consistent, deliberate grid. */
+.activities-section .activity-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(18px, 2vw, 26px);
+}
+.activities-section .activity-card,
+.activities-section .activity-card:first-child,
+.activities-section .activity-card:nth-child(2),
+.activities-section .activity-card:nth-child(3) {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-top: 0;
+}
+.activities-section .activity-image,
+.activities-section .activity-card:nth-child(2) .activity-image,
+.activities-section .activity-card:nth-child(3) .activity-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border-radius: 18px;
+}
+.activities-section .activity-image img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+}
+.activities-section .activity-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 2px 0;
+}
+.activities-section .activity-card-body h3 {
+  min-height: 2.3em;
+  margin-bottom: 10px;
+}
+.activities-section .activity-card-body p {
+  min-height: 0;
+  flex: 1;
+}
+.gallery-section .gallery-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(14px, 2vw, 24px);
+}
+.gallery-section .gallery-grid img,
+.gallery-section .gallery-grid img:nth-child(1),
+.gallery-section .gallery-grid img:nth-child(2),
+.gallery-section .gallery-grid img:nth-child(3) {
+  width: 100%;
+  height: clamp(190px, 23vw, 300px);
+  min-height: 0;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(16,37,31,.07);
+}
+@media (max-width: 900px) {
+  .activities-section .activity-grid {
+    gap: 14px;
+  }
+  .activities-section .activity-image,
+  .activities-section .activity-card:nth-child(2) .activity-image,
+  .activities-section .activity-card:nth-child(3) .activity-image {
+    aspect-ratio: 1 / 1;
+  }
+  .activities-section .activity-image img {
+    aspect-ratio: 1 / 1;
+  }
+  .gallery-section .gallery-grid img,
+  .gallery-section .gallery-grid img:nth-child(1),
+  .gallery-section .gallery-grid img:nth-child(2),
+  .gallery-section .gallery-grid img:nth-child(3) {
+    height: 220px;
+  }
+}
+@media (max-width: 700px) {
+  .activities-section .activity-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+  .activities-section .activity-image,
+  .activities-section .activity-card:nth-child(2) .activity-image,
+  .activities-section .activity-card:nth-child(3) .activity-image,
+  .activities-section .activity-image img {
+    aspect-ratio: 4 / 3;
+  }
+  .activities-section .activity-card-body h3 {
+    min-height: 0;
+  }
+  .gallery-section .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .gallery-section .gallery-grid img,
+  .gallery-section .gallery-grid img:nth-child(1),
+  .gallery-section .gallery-grid img:nth-child(2),
+  .gallery-section .gallery-grid img:nth-child(3) {
+    height: 160px;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+  }
+  .gallery-section .gallery-grid img:first-child {
+    grid-column: auto;
+  }
+}
