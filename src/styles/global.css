@@ -537,3 +537,82 @@ body { overflow-x: clip; }
     grid-column: auto;
   }
 }
+
+
+/* Activity catalog: equal image sizes and aligned card rows. */
+.catalog-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(20px, 2.4vw, 30px);
+}
+.catalog-grid > [data-activity-card] {
+  display: flex;
+  align-self: stretch;
+  min-width: 0;
+}
+.catalog-grid > [data-activity-card] .activity-card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+}
+.catalog-grid > [data-activity-card] .activity-image,
+.catalog-grid > [data-activity-card] .activity-card:nth-child(2) .activity-image,
+.catalog-grid > [data-activity-card] .activity-card:nth-child(3) .activity-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border-radius: 18px;
+}
+.catalog-grid > [data-activity-card] .activity-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+}
+.catalog-grid > [data-activity-card] .activity-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 2px 0;
+}
+.catalog-grid > [data-activity-card] .activity-card-body h3 {
+  min-height: 2.3em;
+  margin-bottom: 10px;
+}
+.catalog-grid > [data-activity-card] .activity-card-body p {
+  min-height: 0;
+  flex: 1;
+}
+.catalog-grid > [data-activity-card] .activity-card-body .text-link {
+  margin-top: auto;
+}
+@media (max-width: 900px) {
+  .catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 18px;
+  }
+  .catalog-grid > [data-activity-card] .activity-image,
+  .catalog-grid > [data-activity-card] .activity-image img {
+    aspect-ratio: 1 / 1;
+  }
+}
+@media (max-width: 560px) {
+  .catalog-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+  .catalog-grid > [data-activity-card] .activity-image,
+  .catalog-grid > [data-activity-card] .activity-image img {
+    aspect-ratio: 4 / 3;
+  }
+  .catalog-grid > [data-activity-card] .activity-card-body h3 {
+    min-height: 0;
+  }
+}
