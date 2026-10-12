@@ -1,7 +1,55 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Carieră | Teamflow" description="O pagină demonstrativă pentru oportunități de colaborare.">
-  <section class="page-hero"><div class="container"><p class="eyebrow">CARIERĂ</p><h1>Îți place să aduni<br /><em>oamenii împreună?</em></h1><p>Ne interesează oamenii energici, responsabili și atenți la grup. În acest moment, pagina este demonstrativă și nu afișează posturi reale.</p><a class="button button-dark" href="/contact/">Contact pentru colaborare <span>↗</span></a></div></section>
-  <section class="section-pad"><div class="container detail-columns"><div><p class="eyebrow">CE CONTEAZĂ</p><h2>Atitudine bună.<br /><span>Organizare și grijă.</span></h2></div><div><p class="body-large">Un facilitator bun știe să asculte, să explice clar și să creeze un spațiu în care fiecare poate participa. Experiența este importantă, dar nu înlocuiește respectul pentru oameni.</p></div></div></section>
+<BaseLayout title="Carieră | Teamflow" description="Descoperă oportunități de colaborare cu Teamflow și trimite-ne CV-ul tău.">
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">CARIERĂ</p>
+      <h1>Hai să construim<br /><em>experiențe împreună.</em></h1>
+      <p>Căutăm oameni care comunică bine, își asumă responsabilități și le place să aducă echipele împreună.</p>
+    </div>
+  </section>
+  <section class="section-pad section-soft">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">OPORTUNITĂȚI</p><h2>Locul potrivit<br /><span>poate fi al tău.</span></h2></div>
+        <p class="heading-description">Publicăm aici pozițiile disponibile atunci când recrutăm. Până atunci, ne poți trimite CV-ul pentru oportunități viitoare.</p>
+      </div>
+      <article class="career-empty">
+        <span class="benefit-number">↗</span>
+        <div><h3>Nu avem poziții deschise momentan</h3><p>Suntem bucuroși să aflăm despre tine și să te contactăm dacă apare o oportunitate potrivită.</p></div>
+      </article>
+    </div>
+  </section>
+  <section class="section-pad">
+    <div class="container career-layout">
+      <div class="career-intro">
+        <p class="eyebrow">APLICĂ SPONTAN</p>
+        <h2>Trimite-ne<br /><span>CV-ul tău.</span></h2>
+        <p class="body-large">Spune-ne câteva lucruri despre tine și atașează CV-ul. Poți aplica și fără o poziție anume.</p>
+        <div class="aside-note"><span>01</span><p>Comunicare și respect pentru oameni</p></div>
+        <div class="aside-note"><span>02</span><p>Responsabilitate și inițiativă</p></div>
+        <div class="aside-note"><span>03</span><p>Dorința de a crea experiențe bune</p></div>
+      </div>
+      <form class="contact-form" data-demo-form>
+        <div class="form-row">
+          <label>Nume și prenume<input name="name" autocomplete="name" required placeholder="Numele tău" /></label>
+          <label>Email<input type="email" name="email" autocomplete="email" required placeholder="nume@email.com" /></label>
+        </div>
+        <div class="form-row">
+          <label>Telefon<input type="tel" name="phone" autocomplete="tel" placeholder="+373 ..." /></label>
+          <label>Poziția dorită<input name="position" placeholder="Ex. Facilitator de activități" /></label>
+        </div>
+        <label>Despre tine<textarea name="message" rows="4" placeholder="Experiență, abilități sau ce te atrage la Teamflow"></textarea></label>
+        <label class="career-file-label">CV (PDF sau DOCX)
+          <input type="file" name="cv" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+          <span class="career-file-help">Atașamentul este selectat doar în această pagină demonstrativă.</span>
+        </label>
+        <label class="career-consent"><input type="checkbox" name="privacy" required /> Confirm că am citit informațiile despre <a href="/confidentialitate/">confidențialitate</a>.</label>
+        <button class="button button-dark" type="submit">Trimite candidatura <span>↗</span></button>
+        <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+        <p class="form-legal">Formular demonstrativ: candidatura și CV-ul nu sunt trimise sau salvate. Trimiterea reală va fi conectată ulterior la sistemul de recrutare.</p>
+      </form>
+    </div>
+  </section>
 </BaseLayout>
