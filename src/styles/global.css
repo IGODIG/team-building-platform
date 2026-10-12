@@ -236,3 +236,187 @@ body { overflow-x: clip; }
   .hero h1, .hero .eyebrow, .hero-copy, .hero-actions { animation: none !important; }
   .button:hover, .package-card:hover, .gallery-grid img:hover, .benefit-item:hover { transform: none; }
 }
+
+
+/* Homepage polish: stronger hierarchy, reliable benefit cards, and tighter rhythm. */
+.benefits-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-top: clamp(72px, 8vw, 112px);
+  padding-bottom: clamp(76px, 9vw, 120px);
+  background:
+    radial-gradient(ellipse at 92% 8%, rgba(216,243,106,.16), transparent 26%),
+    #fff;
+}
+.benefits-section::before {
+  content: "03";
+  position: absolute;
+  z-index: -1;
+  right: max(24px, calc((100vw - 1160px) / 2));
+  top: 12px;
+  font: 800 clamp(100px, 18vw, 230px)/.9 var(--display);
+  letter-spacing: -.1em;
+  color: rgba(16,37,31,.035);
+  pointer-events: none;
+}
+.benefits-section .section-heading {
+  position: relative;
+  align-items: end;
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+.benefit-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(14px, 2vw, 22px);
+  margin: 0;
+  border: 0;
+}
+.benefit-item,
+.benefit-item:nth-child(2),
+.benefit-item:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  min-height: 230px;
+  margin: 0;
+  padding: clamp(22px, 2.5vw, 32px);
+  transform: none;
+  border: 1px solid rgba(16,37,31,.08);
+  border-radius: 20px;
+  background: #f4f7f1;
+  color: var(--forest);
+  box-shadow: 0 8px 24px rgba(16,37,31,.035);
+  transition: transform 280ms ease, box-shadow 280ms ease, border-color 280ms ease;
+}
+.benefit-item:nth-child(2) {
+  background: #eaf2d2;
+}
+.benefit-item:nth-child(3) {
+  background: var(--forest);
+  color: #fff;
+}
+.benefit-item:hover,
+.benefit-item:nth-child(2):hover,
+.benefit-item:nth-child(3):hover {
+  transform: translateY(-6px);
+  border-color: rgba(16,37,31,.16);
+  box-shadow: 0 20px 44px rgba(16,37,31,.1);
+}
+.benefit-number {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  margin: 0 0 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--lime);
+  color: var(--forest);
+  font-size: 12px;
+}
+.benefit-item h3 {
+  margin-bottom: 12px;
+  color: inherit;
+  font-size: clamp(20px, 2vw, 25px);
+  line-height: 1.15;
+}
+.benefit-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.75;
+}
+.benefit-item:nth-child(3) p {
+  color: #d0dbd2;
+}
+.activities-section {
+  position: relative;
+}
+.activities-section .section-heading h2,
+.packages-section .section-heading h2,
+.gallery-section .section-heading h2 {
+  max-width: 650px;
+}
+.package-card {
+  box-shadow: 0 8px 24px rgba(16,37,31,.025);
+}
+.package-featured {
+  transform: translateY(-10px);
+}
+.package-featured:hover {
+  transform: translateY(-14px);
+}
+.gallery-section .section-heading {
+  margin-bottom: 32px;
+}
+.gallery-grid img {
+  box-shadow: 0 12px 30px rgba(16,37,31,.07);
+}
+.quote-section {
+  background: linear-gradient(180deg, #fff 0%, #f8faf6 100%);
+}
+.quote-mark {
+  font-size: 104px;
+}
+.final-cta h2 {
+  max-width: 760px;
+}
+@media (max-width: 900px) {
+  .benefit-item,
+  .benefit-item:nth-child(2),
+  .benefit-item:nth-child(3) {
+    min-height: 220px;
+    padding: 22px 18px;
+  }
+  .benefit-number {
+    margin-bottom: 20px;
+  }
+  .package-featured {
+    transform: none;
+  }
+}
+@media (max-width: 700px) {
+  .benefits-section {
+    padding-block: 64px;
+  }
+  .benefits-section::before {
+    top: 28px;
+    right: 18px;
+    font-size: 112px;
+  }
+  .benefits-section .section-heading {
+    margin-bottom: 28px;
+  }
+  .benefit-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .benefit-item,
+  .benefit-item:nth-child(2),
+  .benefit-item:nth-child(3) {
+    min-height: 0;
+    padding: 22px;
+    border-radius: 16px;
+  }
+  .benefit-number {
+    margin-bottom: 18px;
+  }
+  .package-featured,
+  .package-featured:hover {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .benefit-item,
+  .benefit-item:hover,
+  .benefit-item:nth-child(2):hover,
+  .benefit-item:nth-child(3):hover,
+  .package-featured,
+  .package-featured:hover {
+    transform: none;
+    transition: none;
+  }
+}
