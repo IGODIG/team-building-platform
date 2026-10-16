@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../utils/paths';
 import BaseLayout from '../layouts/BaseLayout.astro';
 const steps = [
   { n:'01', title:'Ne povestești despre echipă', text:'Număr de persoane, dată aproximativă, locație și ce ai vrea să obțineți din experiență.' },
@@ -10,5 +11,5 @@ const steps = [
 <BaseLayout title="Cum funcționează | Teamflow" description="Pașii pentru organizarea unui eveniment de team building." active="how">
   <section class="page-hero"><div class="container"><p class="eyebrow">PROCESUL</p><h1>Clar înainte.<br /><em>Memorabil în ziua lui.</em></h1><p>Organizarea bună nu trebuie să fie complicată. Iată cum trecem de la o idee la o experiență pentru echipă.</p></div></section>
   <section class="section-pad"><div class="container steps-list">{steps.map((step) => <article class="step-row"><span class="step-number">{step.n}</span><div><h2>{step.title}</h2><p>{step.text}</p></div><span class="step-arrow">↗</span></article>)}</div></section>
-  <section class="final-cta"><div class="container final-cta-inner"><div><p class="eyebrow eyebrow-light">ÎNCEPEM SIMPLU</p><h2>Spune-ne pe scurt<br /><em>ce ai în minte.</em></h2></div><a class="button button-lime" href="/solicita-oferta/">Cere o ofertă <span>↗</span></a></div></section>
+  <section class="final-cta"><div class="container final-cta-inner"><div><p class="eyebrow eyebrow-light">ÎNCEPEM SIMPLU</p><h2>Spune-ne pe scurt<br /><em>ce ai în minte.</em></h2></div><a class="button button-lime" href={withBase("/solicita-oferta/")}>Cere o ofertă <span>↗</span></a></div></section>
 </BaseLayout>

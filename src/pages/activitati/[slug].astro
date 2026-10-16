@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../../utils/paths';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { activities } from '../../data/content';
 export function getStaticPaths() {
@@ -7,6 +8,6 @@ export function getStaticPaths() {
 const { activity } = Astro.props;
 ---
 <BaseLayout title={`${activity.title} | Teamflow`} description={activity.summary} active="activities">
-  <section class="detail-hero"><div class="detail-image"><img src={activity.image} alt={activity.title} /></div><div class="detail-content"><a class="back-link" href="/activitati/">← Toate activitățile</a><p class="eyebrow">{activity.category} · {activity.duration}</p><h1>{activity.title}<em>.</em></h1><p class="detail-lead">{activity.summary}</p><div class="detail-facts"><span>{activity.people}</span><span>{activity.setting}</span></div><a class="button button-dark" href="/solicita-oferta/">Cere o ofertă pentru această activitate <span>↗</span></a></div></section>
+  <section class="detail-hero"><div class="detail-image"><img src={activity.image} alt={activity.title} /></div><div class="detail-content"><a class="back-link" href={withBase("/activitati/")}>← Toate activitățile</a><p class="eyebrow">{activity.category} · {activity.duration}</p><h1>{activity.title}<em>.</em></h1><p class="detail-lead">{activity.summary}</p><div class="detail-facts"><span>{activity.people}</span><span>{activity.setting}</span></div><a class="button button-dark" href={withBase("/solicita-oferta/")}>Cere o ofertă pentru această activitate <span>↗</span></a></div></section>
   <section class="section-pad"><div class="container detail-columns"><div><p class="eyebrow">DESPRE ACTIVITATE</p><h2>O experiență construită <span>în jurul echipei.</span></h2><p class="body-large">{activity.description}</p></div><div class="includes-panel"><h3>Ce poate include</h3><ul>{activity.includes.map((item) => <li><span>✓</span>{item}</li>)}</ul><p class="demo-note">Detaliile finale se stabilesc în oferta personalizată.</p></div></div></section>
 </BaseLayout>

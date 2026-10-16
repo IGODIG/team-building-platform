@@ -21,17 +21,6 @@ const { title = 'Team building pentru echipe reale', description = 'Activități
     <main><slot /></main>
     <Footer />
     <script>
-      // GitHub Pages hosts project sites under /<repository>/, while local development uses /.
-      const projectBase = '/team-building-platform';
-      if (window.location.hostname === 'igodig.github.io' && window.location.pathname.startsWith(projectBase)) {
-        document.querySelectorAll<HTMLAnchorElement>('a[href^="/"]').forEach((link) => {
-          const href = link.getAttribute('href');
-          if (href && !href.startsWith(projectBase + '/') && href !== projectBase) {
-            link.setAttribute('href', projectBase + href);
-          }
-        });
-      }
-
       const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
       const menu = document.querySelector<HTMLElement>('[data-menu]');
       const setMenuOpen = (open: boolean) => {
