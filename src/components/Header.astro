@@ -1,5 +1,6 @@
 ---
 import { withBase } from '../utils/paths';
+import { withBase } from '../utils/paths';
 const { active = '' } = Astro.props;
 const links = [
   { href: '/', label: 'Acasă', key: 'home' },
@@ -14,7 +15,7 @@ const links = [
     <a class="brand" href={withBase('/')} aria-label="Pagina principală"><span class="brand-mark">t<span>.</span></span><span class="brand-name">team<span>flow</span></span></a>
     <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="main-navigation" aria-label="Deschide meniul"><span></span><span></span></button>
     <nav class="main-nav" id="main-navigation" data-menu aria-label="Navigare principală">
-      {links.map((link) => <a href={link.href} class:list={{ active: active === link.key }} aria-current={active === link.key ? 'page' : undefined}>{link.label}</a>)}
+      {links.map((link) => <a href={withBase(link.href)} class:list={{ active: active === link.key }} aria-current={active === link.key ? 'page' : undefined}>{link.label}</a>)}
       <a class="button button-dark nav-cta" href={withBase('/solicita-oferta/')}>Cere o ofertă <span aria-hidden="true">↗</span></a>
     </nav>
   </div>
