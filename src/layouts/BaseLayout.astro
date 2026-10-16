@@ -31,13 +31,30 @@ const { title = 'Team building pentru echipe reale', description = 'Activități
           }
         });
       }
+
       const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
       const menu = document.querySelector<HTMLElement>('[data-menu]');
+      const setMenuOpen = (open: boolean) => {
+        toggle?.setAttribute('aria-expanded', String(open));
+        toggle?.setAttribute('aria-label', open ? 'Închide meniul' : 'Deschide meniul');
+        menu?.classList.toggle('is-open', open);
+      };
+
       toggle?.addEventListener('click', () => {
-        const open = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!open));
-        menu?.classList.toggle('is-open', !open);
+        setMenuOpen(toggle.getAttribute('aria-expanded') !== 'true');
       });
+
+      menu?.querySelectorAll<HTMLAnchorElement>('a').forEach((link) => {
+        link.addEventListener('click', () => setMenuOpen(false));
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+          setMenuOpen(false);
+          toggle.focus();
+        }
+      });
+
       // Reveal content only when JavaScript is available; without JS, content remains visible.
       const revealTargets = document.querySelectorAll<HTMLElement>(
         '.intro-grid, .section-heading, .activity-card, .benefit-item, .feature-image, .feature-copy, .package-card, .gallery-grid img, .quote-inner, .final-cta-inner, .step-row, .contact-grid article'
@@ -58,17 +75,7 @@ const { title = 'Team building pentru echipe reale', description = 'Activități
         }, { threshold: 0.12, rootMargin: '0px 0px -35px 0px' });
         revealTargets.forEach((element) => revealObserver.observe(element));
       }
-      toggle?.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-          toggle.setAttribute('aria-expanded', 'false');
-          toggle.setAttribute('aria-label', 'Deschide meniul');
-          menu?.classList.remove('is-open');
-          toggle.focus();
-        }
-      });
-      toggle?.addEventListener('click', () => {
-        toggle.setAttribute('aria-label', toggle.getAttribute('aria-expanded') === 'true' ? 'Închide meniul' : 'Deschide meniul');
-      });
+
       document.querySelectorAll<HTMLFormElement>('[data-demo-form]').forEach((form) => {
         form.addEventListener('submit', (event) => {
           event.preventDefault();
