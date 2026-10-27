@@ -5,5 +5,5 @@ import { packages } from '../../data/content';
 ---
 <BaseLayout title="Pachete și prețuri | Teamflow" description="Pachete orientative pentru organizarea unui team building." active="packages">
   <section class="page-hero"><div class="container"><p class="eyebrow">PACHETE</p><h1>Un punct de pornire.<br /><em>Nu o limită.</em></h1><p>Am organizat opțiunile în trei formate orientative. Programul și prețul final se confirmă după ce înțelegem echipa și evenimentul.</p></div></section>
-  <section class="section-pad"><div class="container"><div class="package-grid">{packages.map((pack) => <PackageCard pack={pack} />)}</div><p class="pricing-disclaimer">Toate prețurile din această versiune sunt exemple demonstrative în MDL, nu oferte comerciale confirmate. Transportul, locația, cateringul și serviciile suplimentare se discută separat.</p></div></section>
+  <section class="section-pad packages-list-section"><div class="container"><div class="package-grid">{packages.map((pack) => <PackageCard pack={pack} />)}</div><p class="pricing-disclaimer">Toate prețurile din această versiune sunt exemple demonstrative în MDL, nu oferte comerciale confirmate. Transportul, locația, cateringul și serviciile suplimentare se discută separat.</p></div></section>
 </BaseLayout>
