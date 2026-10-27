@@ -1003,3 +1003,5 @@ body { overflow-x: clip; }
   .career-opportunities-heading { align-items: flex-start; }
   .career-hero h1 { font-size: clamp(40px, 10.5vw, 58px); }
 }
+.career-hero-actions .button { margin-top: 0; }
+.career-hero-actions { gap: 14px; }
