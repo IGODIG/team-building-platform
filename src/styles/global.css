@@ -1308,3 +1308,10 @@ body > main { flex: 1 0 auto; }
 @media (max-width: 900px) { .intro-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .stat-tile { min-height: 150px; } .stat-value { font-size: 48px; } }
 .stat-value small { white-space: nowrap; }
+
+/* Intro: photo fills the left column beside the statement. */
+.intro-aside .eyebrow { margin-bottom: 18px; padding-top: 12px; }
+.intro-photo { position: relative; margin: 0; }
+.intro-photo img { width: 100%; height: auto; aspect-ratio: 5 / 4; border-radius: 22px 22px 22px 6px; box-shadow: 0 20px 50px rgba(16, 37, 31, .12); }
+.intro-photo-badge { position: absolute; left: 14px; bottom: 14px; max-width: calc(100% - 28px); padding: 8px 14px; border-radius: 999px; background: var(--lime); color: var(--forest); font-size: 11px; font-weight: 800; letter-spacing: .04em; box-shadow: 0 8px 22px rgba(16, 37, 31, .16); }
+@media (max-width: 700px) { .intro-photo img { aspect-ratio: 16 / 10; } }

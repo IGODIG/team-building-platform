@@ -28,7 +28,7 @@ const stats = [
     <div class="hero-side-note">COLABORARE · ENERGIE · ÎNCREDERE</div>
   </section>
   <section class="intro section-pad">
-    <div class="container intro-grid"><p class="eyebrow">NU DOAR O IEȘIRE DIN BIROU</p><div><h2>Lucrurile se schimbă când <span>jucăm în aceeași echipă.</span></h2><p class="intro-copy">Construim experiențe în care oamenii comunică, găsesc soluții și se bucură de reușite împreună. Cu activități alese pentru echipa ta, nu dintr-un meniu universal.</p><a class="text-link" href={withBase("/cum-functioneaza/")}>Află cum lucrăm <span>→</span></a></div></div>
+    <div class="container intro-grid"><div class="intro-aside"><p class="eyebrow">NU DOAR O IEȘIRE DIN BIROU</p><figure class="intro-photo"><img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=900&q=80" alt="Colegi care râd împreună într-o pauză de la lucru" width="900" height="720" loading="lazy" /><figcaption class="intro-photo-badge">Colaborare · Energie · Încredere</figcaption></figure></div><div><h2>Lucrurile se schimbă când <span>jucăm în aceeași echipă.</span></h2><p class="intro-copy">Construim experiențe în care oamenii comunică, găsesc soluții și se bucură de reușite împreună. Cu activități alese pentru echipa ta, nu dintr-un meniu universal.</p><a class="text-link" href={withBase("/cum-functioneaza/")}>Află cum lucrăm <span>→</span></a></div></div>
     <div class="container intro-stats">
       {stats.map((stat) => {
         const Tag = stat.href ? 'a' : 'div';
