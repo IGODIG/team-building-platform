@@ -956,3 +956,20 @@ body { overflow-x: clip; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .contact-form label.career-consent{flex-direction:row;align-items:flex-start}
 .contact-form .career-consent input[type="checkbox"]{width:16px;min-width:16px;height:16px;min-height:16px;padding:0;margin:5px 0 0;flex:0 0 16px}
+
+
+/* Visual fixes from the screenshot review: logo dot, headline tracking, spacing and contrast. */
+.brand-mark { display: inline-flex; align-items: center; justify-content: center; }
+.hero h1 { letter-spacing: -.045em; }
+.page-hero h1, .detail-content h1 { letter-spacing: -.04em; }
+.intro h2, .section-heading h2, .detail-columns h2, .config-note h2, .form-aside h2 { letter-spacing: -.04em; }
+.feature-copy h2, .final-cta h2 { letter-spacing: -.04em; }
+.quote-inner blockquote { letter-spacing: -.03em; }
+.activity-card-body h3, .benefit-item h3, .step-row h2, .contact-cta h2 { letter-spacing: -.02em; }
+.package-card h3 { letter-spacing: -.03em; }
+.package-price, .detail-price { letter-spacing: -.02em; }
+.package-price .currency { margin-right: .15em; }
+.intro::before { top: clamp(12px, 3vw, 40px); right: clamp(16px, 4%, 60px); font-size: clamp(32px, 5vw, 60px); }
+.activities-section .activity-card-body h3,
+.catalog-grid > [data-activity-card] .activity-card-body h3 { min-height: 0; }
+.package-featured .eyebrow { color: #c8d5cb; }
