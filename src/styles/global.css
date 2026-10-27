@@ -1005,3 +1005,43 @@ body { overflow-x: clip; }
 }
 .career-hero-actions .button { margin-top: 0; }
 .career-hero-actions { gap: 14px; }
+
+
+/* One interaction style for every clickable element: hover feedback, press animation and click ripple. */
+.button, .filter-button { position: relative; overflow: hidden; isolation: isolate; }
+.ripple { position: absolute; border-radius: 50%; background: currentColor; opacity: .28; transform: scale(0); pointer-events: none; animation: ripple 560ms ease-out forwards; z-index: -1; }
+@keyframes ripple { to { transform: scale(1); opacity: 0; } }
+.back-link, .hero-link, .text-link { display: inline-flex; align-items: center; }
+.footer-bottom a { display: inline-block; }
+.button > span, .hero-link > span, .back-link > span { display: inline-block; transition: transform 220ms var(--motion-spring, ease); }
+.button:hover > span, .hero-link:hover > span { transform: translateX(3px); }
+.back-link:hover > span, .back-link:hover { transform: translateX(-3px); }
+.button, .filter-button, .menu-toggle, .text-link, .hero-link, .back-link,
+.main-nav > a:not(.button), .footer-main a, .footer-bottom a {
+  transition: transform 160ms ease, background-color 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, gap 220ms ease;
+}
+.button:active, .button:hover:active,
+.filter-button:active, .menu-toggle:active { transform: scale(.95); box-shadow: none; }
+.text-link:active, .hero-link:active, .back-link:active,
+.main-nav > a:not(.button):active, .footer-main a:active, .footer-bottom a:active { transform: scale(.95); }
+.filter-button:hover:not(.is-active) { border-color: var(--forest); }
+@media (prefers-reduced-motion: reduce) {
+  .ripple { display: none; }
+  .button:active, .filter-button:active, .menu-toggle:active, .text-link:active, .hero-link:active, .back-link:active,
+  .main-nav > a:not(.button):active, .footer-main a:active, .footer-bottom a:active { transform: none; }
+}
+
+/* Consistency pass from the interaction audit: one size and shape per control type. */
+.filter-button { border-radius: 999px; font-size: 12px; font-weight: 600; min-height: 40px; padding: 0 18px; }
+.text-link, .activity-card-body .text-link, .heading-link { font-size: 13px; font-weight: 700; }
+.back-link, .hero-link { font-size: 13px; font-weight: 700; }
+.main-nav > a:not(.button) { font-size: 13px; }
+.footer-main > div > a:not(.brand) { font-size: 13px; }
+.footer-bottom, .footer-bottom a { font-size: 12px; }
+
+/* Layout fixes from the full-page review: sticky footer and no fake arrows on non-clickable steps. */
+body { min-height: 100vh; display: flex; flex-direction: column; }
+body > main { flex: 1 0 auto; }
+.step-arrow { display: none; }
+.step-row { grid-template-columns: 70px minmax(0, 1fr); }
+@media (max-width: 700px) { .step-row { grid-template-columns: 36px minmax(0, 1fr); } }
