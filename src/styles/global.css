@@ -973,3 +973,33 @@ body { overflow-x: clip; }
 .activities-section .activity-card-body h3,
 .catalog-grid > [data-activity-card] .activity-card-body h3 { min-height: 0; }
 .package-featured .eyebrow { color: #c8d5cb; }
+
+
+/* Careers layout review: filled hero, call to action in the empty state, form card, readable form text. */
+.career-hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
+.career-hero-copy > p:not(.eyebrow) { max-width: 560px; color: var(--muted); font-size: 16px; line-height: 1.8; margin-bottom: 0; }
+.career-hero-visual { position: relative; }
+.career-hero-visual img { width: 100%; aspect-ratio: 5 / 4; height: auto; border-radius: 22px 22px 22px 6px; box-shadow: 0 24px 60px rgba(16, 37, 31, .14); }
+.career-hero-badge { position: absolute; left: 18px; bottom: 18px; max-width: calc(100% - 36px); padding: 10px 16px; border-radius: 999px; background: var(--lime); color: var(--forest); font-size: 12px; font-weight: 700; box-shadow: 0 10px 28px rgba(16, 37, 31, .14); }
+.career-empty-link { margin-left: auto; flex: 0 0 auto; white-space: nowrap; }
+.career-intro { position: sticky; top: 28px; }
+.career-form { padding: clamp(22px, 3.2vw, 38px); border: 1px solid rgba(16, 37, 31, .08); border-radius: 22px; background: var(--soft); box-shadow: 0 14px 40px rgba(16, 37, 31, .05); }
+.contact-form label { font-size: 13px; }
+.contact-form input, .contact-form select, .contact-form textarea { font-size: 14px; }
+.career-file-help, .career-form .career-consent { font-size: 13px; }
+.form-legal, .form-status { font-size: 12.5px; }
+@media (max-width: 900px) {
+  .career-hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .career-hero-visual img { aspect-ratio: 16 / 10; }
+  .career-intro { position: static; }
+}
+@media (max-width: 700px) {
+  .career-empty { flex-wrap: wrap; }
+  .career-empty-link { margin-left: 0; }
+  .career-form { padding: 20px 16px; border-radius: 16px; }
+}
+.career-hero h1 { font-size: clamp(40px, 4.8vw, 66px); }
+@media (max-width: 700px) {
+  .career-opportunities-heading { align-items: flex-start; }
+  .career-hero h1 { font-size: clamp(40px, 10.5vw, 58px); }
+}
