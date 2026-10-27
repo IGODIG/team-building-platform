@@ -1,8 +1,277 @@
 ---
 import { withBase } from '../utils/paths';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { activities, activityCategories } from '../data/content';
 ---
-<BaseLayout title="Configurează evenimentul | Teamflow" description="Configurează un plan orientativ pentru evenimentul echipei.">
-  <section class="page-hero"><div class="container"><p class="eyebrow">CONFIGURATOR DEMO</p><h1>Începe cu ideea.<br /><em>Construim restul.</em></h1><p>Alege câteva preferințe și lasă-ne un email. Îți răspundem cu un plan orientativ; trimiterea nu creează o rezervare și nu e o ofertă finală.</p></div></section>
-  <section class="section-pad"><div class="container configurator-layout"><form class="contact-form" data-form><input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" /><label>Număr de participanți<input type="number" name="people" min="4" max="300" value="20" required /></label><label>Tipul activității<select name="format"><option>Competiție și jocuri</option><option>Outdoor</option><option>Colaborare</option><option>Zi de companie</option></select></label><label>Durată<select name="duration"><option>90–120 minute</option><option>2–3 ore</option><option>3–4 ore</option><option>O zi întreagă</option></select></label><label>Locație<select name="location"><option>De stabilit</option><option>În aer liber</option><option>În interior</option><option>La sediul companiei</option></select></label><label>Data aproximativă<input type="date" name="date" /></label><label>Email de contact<input type="email" name="email" autocomplete="email" required placeholder="nume@companie.md" /></label><label class="career-consent"><input type="checkbox" name="privacy" required /> <span>Confirm că am citit informațiile despre <a href={withBase("/confidentialitate/")}>confidențialitate</a>.</span></label><button class="button button-dark" type="submit">Trimite preferințele <span aria-hidden="true">↗</span></button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form><aside class="config-note"><p class="eyebrow">CE URMEAZĂ</p><h2>Preferințele sunt doar <span>primul pas.</span></h2><p>După confirmarea detaliilor, echipa de organizare poate propune activități, logistică și un buget potrivit. Pentru o cerere mai detaliată, folosește formularul de ofertă.</p><a class="text-link" href={withBase("/solicita-oferta/")}>Continuă cu o cerere de ofertă <span>→</span></a></aside></div></section>
+<BaseLayout active="builder" title="Construiește ziua echipei | Teamflow" description="Compune o zi de team building oră cu oră, din biblioteca noastră de activități.">
+  <section class="page-hero"><div class="container"><p class="eyebrow">CONSTRUCTOR DE ZI</p><h1>Construiește ziua<br /><em>echipei tale.</em></h1><p>Alege activitățile din bibliotecă, pune-le în ordine și vezi cum arată ziua oră cu oră. Ne trimiți planul și revenim cu o propunere. Trimiterea nu creează o rezervare și nu e o ofertă finală.</p></div></section>
+
+  <section class="section-pad">
+    <div class="container builder" data-builder>
+      <div class="builder-library">
+        <p class="eyebrow">1 · BIBLIOTECA DE ACTIVITĂȚI</p>
+        <div class="filter-bar" role="group" aria-label="Filtrare activități" data-lib-filters>
+          <button class="filter-button is-active" type="button" aria-pressed="true" data-filter="all">Toate</button>
+          {activityCategories.map((category) => <button class="filter-button" type="button" aria-pressed="false" data-filter={category}>{category}</button>)}
+        </div>
+        <div class="lib-list">
+          {activities.map((activity) => (
+            <article class="lib-item" data-lib-item data-category={activity.category} data-slug={activity.slug} data-title={activity.title} data-minutes={activity.minutes}>
+              <div class="lib-body">
+                <p class="eyebrow">{activity.category} <span>·</span> {activity.duration}</p>
+                <h3>{activity.title}</h3>
+                <p>{activity.summary}</p>
+                <p class="lib-meta">{activity.people} · {activity.setting}</p>
+              </div>
+              <button class="button button-outline lib-add" type="button" data-add aria-label={`Adaugă în zi: ${activity.title}`}>Adaugă <span aria-hidden="true">+</span></button>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <aside class="builder-day" aria-label="Ziua ta">
+        <p class="eyebrow">2 · ZIUA TA</p>
+        <label class="day-start">Ora de început
+          <input type="time" value="09:00" data-start />
+        </label>
+        <ol class="timeline" data-timeline></ol>
+        <p class="timeline-empty" data-empty>Ziua e goală. Adaugă prima activitate din bibliotecă.</p>
+        <div class="day-actions">
+          <button class="filter-button" type="button" data-add-break="20" data-title="Pauză de cafea">+ Pauză de cafea</button>
+          <button class="filter-button" type="button" data-add-break="60" data-title="Prânz">+ Prânz</button>
+          <button class="filter-button" type="button" data-add-break="30" data-title="Timp liber">+ Timp liber</button>
+        </div>
+        <div class="day-total" data-total hidden></div>
+        <button class="text-link day-clear" type="button" data-clear hidden>Golește ziua</button>
+        <p class="sr-only" role="status" aria-live="polite" data-announce></p>
+      </aside>
+    </div>
+
+    <div class="container builder-send">
+      <div class="builder-send-intro">
+        <p class="eyebrow">3 · TRIMITE PLANUL</p>
+        <h2>Spune-ne cine <span>joacă în echipă.</span></h2>
+        <p>Primim planul zilei împreună cu detaliile de mai jos și revenim cu o propunere. Dacă preferi un formular mai scurt, <a class="text-link" href={withBase("/solicita-oferta/")}>cere direct o ofertă <span aria-hidden="true">→</span></a></p>
+      </div>
+      <form class="contact-form" data-form data-builder-form>
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <textarea class="sr-only" name="plan" tabindex="-1" aria-hidden="true" required data-plan></textarea>
+        <div class="form-row">
+          <label>Numele tău<input name="name" autocomplete="name" required placeholder="Prenume și nume" /></label>
+          <label>Email de contact<input type="email" name="email" autocomplete="email" required placeholder="nume@companie.md" /></label>
+        </div>
+        <div class="form-row">
+          <label>Număr de participanți<input type="number" name="people" min="4" max="300" value="20" required /></label>
+          <label>Data aproximativă<input type="date" name="date" /></label>
+        </div>
+        <label>Detalii suplimentare<textarea name="details" rows="3" placeholder="Locația, obiectivele echipei, restricții alimentare..."></textarea></label>
+        <label class="career-consent"><input type="checkbox" name="privacy" required /> <span>Confirm că am citit informațiile despre <a href={withBase("/confidentialitate/")}>confidențialitate</a>.</span></label>
+        <button class="button button-dark" type="submit">Trimite ziua <span aria-hidden="true">↗</span></button>
+        <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+        <p class="form-legal">Folosim datele doar ca să răspundem cererii tale.</p>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    type Item = { id: string; kind: 'activity' | 'break'; title: string; minutes: number; slug?: string };
+    type Saved = { start: string; items: Item[] };
+
+    const KEY = 'teamflow-day-plan-v1';
+    const DURATIONS = [15, 20, 30, 45, 60, 75, 90, 105, 120, 150, 180, 210, 240];
+
+    const root = document.querySelector<HTMLElement>('[data-builder]');
+    if (root) {
+      const startInput = root.querySelector<HTMLInputElement>('[data-start]')!;
+      const list = root.querySelector<HTMLOListElement>('[data-timeline]')!;
+      const emptyNote = root.querySelector<HTMLElement>('[data-empty]')!;
+      const totalBox = root.querySelector<HTMLElement>('[data-total]')!;
+      const clearButton = root.querySelector<HTMLButtonElement>('[data-clear]')!;
+      const announce = root.querySelector<HTMLElement>('[data-announce]')!;
+      const form = document.querySelector<HTMLFormElement>('[data-builder-form]')!;
+      const planField = form.querySelector<HTMLTextAreaElement>('[data-plan]')!;
+
+      let items: Item[] = [];
+
+      const load = () => {
+        try {
+          const saved = JSON.parse(localStorage.getItem(KEY) ?? 'null') as Saved | null;
+          if (saved && Array.isArray(saved.items)) {
+            items = saved.items.filter((item) => item && typeof item.title === 'string' && Number.isFinite(item.minutes));
+            if (/^\d{2}:\d{2}$/.test(saved.start)) startInput.value = saved.start;
+          }
+        } catch {
+          items = [];
+        }
+      };
+      const save = () => {
+        try {
+          localStorage.setItem(KEY, JSON.stringify({ start: startInput.value, items } satisfies Saved));
+        } catch {
+          // Storage can be unavailable (private mode); the plan still works for this visit.
+        }
+      };
+
+      const toMinutes = (value: string) => {
+        const [h, m] = value.split(':').map(Number);
+        return (h || 0) * 60 + (m || 0);
+      };
+      const clock = (total: number) => {
+        const m = ((total % 1440) + 1440) % 1440;
+        return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+      };
+      const duration = (minutes: number) => {
+        const h = Math.floor(minutes / 60);
+        const m = minutes % 60;
+        return h && m ? `${h} h ${m} min` : h ? `${h} h` : `${m} min`;
+      };
+      const newId = () => `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+
+      const say = (message: string) => {
+        announce.textContent = '';
+        window.setTimeout(() => (announce.textContent = message), 30);
+      };
+
+      const render = (focus?: { id: string; action: string }) => {
+        list.replaceChildren();
+        let cursor = toMinutes(startInput.value || '09:00');
+        const begin = cursor;
+        const lines: string[] = [];
+
+        items.forEach((item, index) => {
+          const from = cursor;
+          cursor += item.minutes;
+          lines.push(`${clock(from)}–${clock(cursor)} · ${item.title} (${duration(item.minutes)})`);
+
+          const li = document.createElement('li');
+          li.className = `timeline-item${item.kind === 'break' ? ' is-break' : ''}`;
+
+          const time = document.createElement('span');
+          time.className = 'timeline-time';
+          time.textContent = clock(from);
+
+          const body = document.createElement('div');
+          body.className = 'timeline-body';
+          const title = document.createElement('strong');
+          title.textContent = item.title;
+          const range = document.createElement('span');
+          range.className = 'timeline-range';
+          range.textContent = `${clock(from)}–${clock(cursor)}`;
+
+          const select = document.createElement('select');
+          select.setAttribute('aria-label', `Durată: ${item.title}`);
+          const options = Array.from(new Set([...DURATIONS, item.minutes])).sort((a, b) => a - b);
+          options.forEach((value) => {
+            const option = document.createElement('option');
+            option.value = String(value);
+            option.textContent = duration(value);
+            option.selected = value === item.minutes;
+            select.appendChild(option);
+          });
+          select.addEventListener('change', () => {
+            item.minutes = Number(select.value);
+            save();
+            render();
+          });
+
+          body.append(title, range, select);
+
+          const controls = document.createElement('div');
+          controls.className = 'timeline-controls';
+          const control = (action: string, label: string, text: string, disabled: boolean, handler: () => void) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = text;
+            button.setAttribute('aria-label', `${label}: ${item.title}`);
+            button.dataset.id = item.id;
+            button.dataset.action = action;
+            button.disabled = disabled;
+            button.addEventListener('click', handler);
+            controls.appendChild(button);
+          };
+          control('up', 'Mută mai sus', '↑', index === 0, () => move(index, -1, item.id, 'up'));
+          control('down', 'Mută mai jos', '↓', index === items.length - 1, () => move(index, 1, item.id, 'down'));
+          control('remove', 'Șterge', '×', false, () => {
+            items = items.filter((entry) => entry.id !== item.id);
+            save();
+            render();
+            say(`Șters din zi: ${item.title}.`);
+          });
+
+          li.append(time, body, controls);
+          list.appendChild(li);
+        });
+
+        const has = items.length > 0;
+        emptyNote.hidden = has;
+        totalBox.hidden = !has;
+        clearButton.hidden = !has;
+        const total = cursor - begin;
+        if (has) {
+          totalBox.textContent = `Total: ${duration(total)} · ${clock(begin)}–${clock(cursor)}`;
+          lines.push(`Total: ${duration(total)}, ${clock(begin)}–${clock(cursor)}`);
+        }
+        planField.value = lines.join('\n');
+        planField.setCustomValidity(has ? '' : 'Adaugă cel puțin o activitate în zi.');
+
+        if (focus) {
+          list.querySelector<HTMLButtonElement>(`button[data-id="${focus.id}"][data-action="${focus.action}"]:not(:disabled)`)?.focus();
+        }
+      };
+
+      const move = (index: number, delta: number, id: string, action: string) => {
+        const target = index + delta;
+        if (target < 0 || target >= items.length) return;
+        [items[index], items[target]] = [items[target], items[index]];
+        save();
+        render({ id, action });
+        say(`${items[target].title} este acum pe poziția ${target + 1} din ${items.length}.`);
+      };
+
+      const add = (item: Omit<Item, 'id'>) => {
+        items.push({ ...item, id: newId() });
+        save();
+        render();
+        say(`Adăugat în zi: ${item.title}.`);
+      };
+
+      root.querySelectorAll<HTMLElement>('[data-lib-item]').forEach((card) => {
+        card.querySelector<HTMLButtonElement>('[data-add]')?.addEventListener('click', () => {
+          add({ kind: 'activity', title: card.dataset.title ?? '', minutes: Number(card.dataset.minutes) || 60, slug: card.dataset.slug });
+        });
+      });
+      root.querySelectorAll<HTMLButtonElement>('[data-add-break]').forEach((button) => {
+        button.addEventListener('click', () => {
+          add({ kind: 'break', title: button.dataset.title ?? 'Pauză', minutes: Number(button.dataset.addBreak) || 20 });
+        });
+      });
+
+      const filters = root.querySelectorAll<HTMLButtonElement>('[data-lib-filters] [data-filter]');
+      filters.forEach((button) => button.addEventListener('click', () => {
+        filters.forEach((entry) => {
+          entry.classList.toggle('is-active', entry === button);
+          entry.setAttribute('aria-pressed', String(entry === button));
+        });
+        root.querySelectorAll<HTMLElement>('[data-lib-item]').forEach((card) => {
+          card.hidden = !(button.dataset.filter === 'all' || card.dataset.category === button.dataset.filter);
+        });
+      }));
+
+      startInput.addEventListener('change', () => {
+        save();
+        render();
+      });
+      clearButton.addEventListener('click', () => {
+        items = [];
+        save();
+        render();
+        say('Ziua a fost golită.');
+      });
+      // The shared form handler resets the form after a successful send; keep the plan field in sync.
+      form.addEventListener('reset', () => window.setTimeout(() => render(), 0));
+
+      load();
+      render();
+    }
+  </script>
 </BaseLayout>
