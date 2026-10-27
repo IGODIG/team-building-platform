@@ -1,7 +1,10 @@
 ---
 import { withBase } from '../utils/paths';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { activities, activityCategories } from '../data/content';
+import { activities, activityCategories, packages } from '../data/content';
+const packageDays = Object.fromEntries(
+  packages.map((pack) => [pack.slug, { name: pack.name, start: pack.sampleStart, items: pack.sampleDay }])
+);
 ---
 <BaseLayout active="builder" title="Construiește ziua echipei | Teamflow" description="Compune o zi de team building oră cu oră, din biblioteca noastră de activități.">
   <section class="page-hero"><div class="container"><p class="eyebrow">CONSTRUCTOR DE ZI</p><h1>Construiește ziua<br /><em>echipei tale.</em></h1><p>Alege activitățile din bibliotecă, pune-le în ordine și vezi cum arată ziua oră cu oră. Ne trimiți planul și revenim cu o propunere. Trimiterea nu creează o rezervare și nu e o ofertă finală.</p></div></section>
@@ -31,6 +34,8 @@ import { activities, activityCategories } from '../data/content';
 
       <aside class="builder-day" aria-label="Ziua ta">
         <p class="eyebrow">2 · ZIUA TA</p>
+        <p class="day-note" data-day-note hidden></p>
+        <script is:inline type="application/json" id="package-days" set:html={JSON.stringify(packageDays)} />
         <label class="day-start">Ora de început
           <input type="time" value="09:00" data-start />
         </label>
@@ -271,6 +276,30 @@ import { activities, activityCategories } from '../data/content';
       form.addEventListener('reset', () => window.setTimeout(() => render(), 0));
 
       load();
+
+      // Arriving from a package page (?pachet=team) starts from that package's sample day.
+      const chosen = new URLSearchParams(window.location.search).get('pachet');
+      if (chosen) {
+        try {
+          const days = JSON.parse(document.getElementById('package-days')?.textContent ?? '{}') as Record<
+            string,
+            { name: string; start: string; items: Omit<Item, 'id'>[] }
+          >;
+          const day = days[chosen];
+          if (day) {
+            items = day.items.map((item) => ({ ...item, id: newId() }));
+            startInput.value = day.start;
+            save();
+            const note = root.querySelector<HTMLElement>('[data-day-note]');
+            if (note) {
+              note.textContent = `Pornit de la programul pachetului ${day.name}. Poți schimba orice.`;
+              note.hidden = false;
+            }
+          }
+        } catch {
+          // Malformed data only means we start from the saved or empty plan.
+        }
+      }
       render();
     }
   </script>
