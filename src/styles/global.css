@@ -1321,3 +1321,15 @@ body > main { flex: 1 0 auto; }
 .intro-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8, 28, 22, .82) 0%, rgba(8, 28, 22, .35) 38%, transparent 62%); pointer-events: none; }
 .intro-photo-badge { z-index: 1; left: 20px; right: 20px; bottom: 18px; max-width: none; padding: 0; border-radius: 0; background: none; box-shadow: none; display: flex; align-items: center; gap: 12px; color: #fff; font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
 .intro-photo-badge::before { content: ""; flex: 0 0 28px; height: 3px; border-radius: 3px; background: var(--lime); }
+
+/* Activity page: structure timeline, side panel and previous/next links. */
+.act-timeline .timeline-item { grid-template-columns: 78px minmax(0, 1fr); }
+.act-timeline .timeline-time { font-size: 14px; }
+.pack-program-side .includes-panel .button { margin-top: 18px; }
+.pack-program-side .includes-panel li { align-items: center; }
+.act-pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: clamp(32px, 4vw, 52px); }
+.act-pager-link { display: flex; align-items: center; gap: 16px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 18px; background: #fff; font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: -.02em; transition: transform 240ms var(--motion-spring, ease), border-color 200ms ease, box-shadow 200ms ease; }
+.act-pager-link small { display: block; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.act-pager-link:hover { border-color: #a3c533; box-shadow: 0 14px 34px rgba(16, 37, 31, .08); transform: translateY(-3px); }
+.act-pager-next { justify-content: flex-end; text-align: right; }
+@media (max-width: 600px) { .act-pager { grid-template-columns: minmax(0, 1fr); } }

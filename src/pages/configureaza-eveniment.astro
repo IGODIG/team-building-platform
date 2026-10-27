@@ -300,6 +300,20 @@ const packageDays = Object.fromEntries(
           // Malformed data only means we start from the saved or empty plan.
         }
       }
+      // Arriving from an activity page (?adauga=slug) adds that activity to the day once.
+      const toAdd = new URLSearchParams(window.location.search).get('adauga');
+      if (toAdd) {
+        const card = Array.from(root.querySelectorAll<HTMLElement>('[data-lib-item]')).find((entry) => entry.dataset.slug === toAdd);
+        if (card && !items.some((item) => item.slug === toAdd)) {
+          items.push({ id: newId(), kind: 'activity', title: card.dataset.title ?? '', minutes: Number(card.dataset.minutes) || 60, slug: toAdd });
+          save();
+          const note = root.querySelector<HTMLElement>('[data-day-note]');
+          if (note) {
+            note.textContent = `Am adăugat în zi: ${card.dataset.title}. Poți continua cu alte activități.`;
+            note.hidden = false;
+          }
+        }
+      }
       render();
     }
   </script>

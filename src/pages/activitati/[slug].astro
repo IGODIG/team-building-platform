@@ -1,13 +1,163 @@
 ---
 import { withBase } from '../../utils/paths';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { activities } from '../../data/content';
+import ActivityCard from '../../components/ActivityCard.astro';
+import { activities, packages } from '../../data/content';
+
 export function getStaticPaths() {
   return activities.map((activity) => ({ params: { slug: activity.slug }, props: { activity } }));
 }
+
 const { activity } = Astro.props;
+
+const length = (minutes: number) => {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return h && m ? `${h} h ${m} min` : h ? `${h} h` : `${m} min`;
+};
+
+// Orientative structure: a short briefing, the activity itself and a debrief.
+const briefing = 15;
+const debrief = 15;
+const main = Math.max(15, activity.minutes - briefing - debrief);
+const phases = [
+  { title: 'Briefing și reguli', text: 'Prezentăm obiectivul, împărțim echipele și clarificăm regulile.', minutes: briefing },
+  { title: activity.title, text: activity.summary, minutes: main },
+  { title: 'Debrief', text: 'Discutăm ce a mers bine, ce am învățat și ce ducem mai departe în echipă.', minutes: debrief }
+];
+
+const outcomes: Record<string, { title: string; text: string }[]> = {
+  Competiție: [
+    { title: 'Energie și motivație', text: 'Ritm alert și obiective clare care aprind spiritul de echipă.' },
+    { title: 'Strategie împreună', text: 'Echipele își împart rolurile și iau decizii sub presiunea timpului.' },
+    { title: 'Respect și fair-play', text: 'Competiția se încheie cu o discuție, nu cu un câștigător izolat.' }
+  ],
+  Outdoor: [
+    { title: 'Aer curat și mișcare', text: 'Un cadru care scoate echipa din birou și din rutină.' },
+    { title: 'Încredere în echipă', text: 'Misiuni în care fiecare depinde de ceilalți.' },
+    { title: 'Amintiri comune', text: 'Momente pe care echipa le va povesti luni la rând.' }
+  ],
+  Colaborare: [
+    { title: 'Comunicare mai clară', text: 'Exerciții care arată cum vorbim și cum ne ascultăm.' },
+    { title: 'Roluri vizibile', text: 'Fiecare își descoperă locul în echipă.' },
+    { title: 'Pași concreți', text: 'Pleci cu idei sau decizii pe care le poți folosi imediat.' }
+  ],
+  Fun: [
+    { title: 'Relaxare reală', text: 'Un ritm ușor, fără presiune, în care toată lumea se simte bine.' },
+    { title: 'Legături noi', text: 'Colegi care nu lucrează zilnic împreună ajung să se cunoască.' },
+    { title: 'Voie bună', text: 'Râsete împreună, care schimbă atmosfera de lucru.' }
+  ]
+};
+
+const facts = [
+  { label: 'Durată', value: activity.duration },
+  { label: 'Participanți', value: activity.people },
+  { label: 'Cadru', value: activity.setting },
+  { label: 'Categorie', value: activity.category }
+];
+
+const includedIn = packages.filter((pack) => pack.sampleDay.some((item) => item.slug === activity.slug));
+const index = activities.findIndex((item) => item.slug === activity.slug);
+const previous = activities[(index - 1 + activities.length) % activities.length];
+const next = activities[(index + 1) % activities.length];
+const related = [
+  ...activities.filter((item) => item.slug !== activity.slug && item.category === activity.category),
+  ...activities.filter((item) => item.slug !== activity.slug && item.category !== activity.category)
+].slice(0, 3);
+const builderHref = `${withBase('/configureaza-eveniment/')}?adauga=${activity.slug}`;
 ---
 <BaseLayout title={`${activity.title} | Teamflow`} description={activity.summary} active="activities">
-  <section class="detail-hero"><div class="detail-image"><img src={activity.image} alt={activity.title} /></div><div class="detail-content"><a class="back-link" href={withBase("/activitati/")}>← Toate activitățile</a><p class="eyebrow">{activity.category} · {activity.duration}</p><h1>{activity.title}<em>.</em></h1><p class="detail-lead">{activity.summary}</p><div class="detail-facts"><span>{activity.people}</span><span>{activity.setting}</span></div><a class="button button-dark" href={withBase("/solicita-oferta/")}>Cere o ofertă pentru această activitate <span>↗</span></a></div></section>
-  <section class="section-pad"><div class="container detail-columns"><div><p class="eyebrow">DESPRE ACTIVITATE</p><h2>O experiență construită <span>în jurul echipei.</span></h2><p class="body-large">{activity.description}</p></div><div class="includes-panel"><h3>Ce poate include</h3><ul>{activity.includes.map((item) => <li><span>✓</span>{item}</li>)}</ul><p class="demo-note">Detaliile finale se stabilesc în oferta personalizată.</p></div></div></section>
+  <section class="detail-hero">
+    <div class="detail-image"><img src={activity.image} alt={activity.title} /></div>
+    <div class="detail-content">
+      <a class="back-link" href={withBase("/activitati/")}><span aria-hidden="true">←</span> Toate activitățile</a>
+      <p class="eyebrow">{activity.category} · {activity.duration}</p>
+      <h1>{activity.title}<em>.</em></h1>
+      <p class="detail-lead">{activity.summary}</p>
+      <div class="detail-facts"><span>{activity.people}</span><span>{activity.setting}</span></div>
+      <div class="pack-actions">
+        <a class="button button-dark" href={withBase("/solicita-oferta/")}>Cere o ofertă <span aria-hidden="true">↗</span></a>
+        <a class="button button-outline" href={builderHref}>Adaugă în ziua ta <span aria-hidden="true">+</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pack-stats">
+    <div class="container pack-stats-grid">
+      {facts.map((fact) => <div><span>{fact.label}</span><strong>{fact.value}</strong></div>)}
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="container detail-columns">
+      <div>
+        <p class="eyebrow">DESPRE ACTIVITATE</p>
+        <h2>O experiență construită <span>în jurul echipei.</span></h2>
+        <p class="body-large">{activity.description}</p>
+      </div>
+      <div class="includes-panel">
+        <h3>Ce poate include</h3>
+        <ul>{activity.includes.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
+        <p class="demo-note">Detaliile finale se stabilesc în oferta personalizată.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad section-soft">
+    <div class="container pack-program">
+      <div class="pack-program-main">
+        <p class="eyebrow">CUM DECURGE</p>
+        <h2>Structura <span>activității.</span></h2>
+        <p class="body-large">O structură orientativă, de {length(activity.minutes)}. O adaptăm la grup, la locație și la ritmul echipei.</p>
+        <ol class="timeline pack-timeline act-timeline">
+          {phases.map((phase) => (
+            <li class="timeline-item">
+              <span class="timeline-time">{phase.minutes} min</span>
+              <div class="timeline-body"><strong>{phase.title}</strong><span class="timeline-range">{phase.text}</span></div>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div class="pack-program-side">
+        <div class="includes-panel">
+          <h3>Se potrivește cu</h3>
+          {includedIn.length > 0 ? (
+            <ul>{includedIn.map((pack) => <li><span aria-hidden="true">✓</span><a class="text-link" href={withBase(`/pachete/${pack.slug}/`)}>Pachetul {pack.name} <span aria-hidden="true">→</span></a></li>)}</ul>
+          ) : (
+            <p class="demo-note">Activitatea nu e în programul unui pachet, dar o poți adăuga oricând în ziua ta.</p>
+          )}
+          <a class="button button-dark" href={builderHref}>Adaugă în ziua ta <span aria-hidden="true">+</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="benefits-section section-pad">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">CE CÂȘTIGĂ ECHIPA</p><h2>De ce <span>merită.</span></h2></div>
+      </div>
+      <div class="benefit-grid">
+        {outcomes[activity.category].map((item, i) => (
+          <article class="benefit-item"><span class="benefit-number">{String(i + 1).padStart(2, '0')}</span><h3>{item.title}</h3><p>{item.text}</p></article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="activities-section section-pad section-soft">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">DIN BIBLIOTECĂ</p><h2>Alte <span>activități.</span></h2></div>
+        <a class="text-link heading-link" href={withBase("/activitati/")}>Toată biblioteca <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="activity-grid">{related.map((item) => <ActivityCard activity={item} />)}</div>
+      <nav class="act-pager" aria-label="Navigare între activități">
+        <a class="act-pager-link" href={withBase(`/activitati/${previous.slug}/`)}><span aria-hidden="true">←</span><span><small>Anterioara</small>{previous.title}</span></a>
+        <a class="act-pager-link act-pager-next" href={withBase(`/activitati/${next.slug}/`)}><span><small>Următoarea</small>{next.title}</span><span aria-hidden="true">→</span></a>
+      </nav>
+    </div>
+  </section>
+
+  <section class="final-cta"><div class="container final-cta-inner"><div><p class="eyebrow eyebrow-light">URMĂTORUL PAS</p><h2>Hai să punem<br /><em>{activity.title}</em> în ziua ta.</h2></div><a class="button button-lime" href={builderHref}>Adaugă în ziua ta <span aria-hidden="true">+</span></a></div></section>
 </BaseLayout>
