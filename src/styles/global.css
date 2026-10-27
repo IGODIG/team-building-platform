@@ -1045,3 +1045,13 @@ body > main { flex: 1 0 auto; }
 .step-arrow { display: none; }
 .step-row { grid-template-columns: 70px minmax(0, 1fr); }
 @media (max-width: 700px) { .step-row { grid-template-columns: 36px minmax(0, 1fr); } }
+.contact-grid h2 a { transition: color 200ms ease; }
+.contact-grid h2 a:hover { color: #6b852d; }
+
+/* Quote section: label above, tighter mark, and a signature instead of an internal note. */
+.quote-inner .eyebrow { margin-bottom: 18px; }
+.quote-mark { display: block; height: 52px; font-size: 84px; line-height: 1; margin: 0 auto 6px; }
+.quote-inner blockquote { margin: 0 auto 28px; }
+.quote-author { display: inline-flex; align-items: center; gap: 12px; margin: 0; font-size: 13px; font-weight: 700; color: var(--forest); }
+.quote-author::before { content: ""; width: 28px; height: 2px; border-radius: 999px; background: var(--lime); }
+@media (max-width: 700px) { .quote-mark { height: 40px; font-size: 64px; } }
