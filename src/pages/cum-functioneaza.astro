@@ -1,15 +1,192 @@
 ---
 import { withBase } from '../utils/paths';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { packages } from '../data/content';
+
 const steps = [
-  { n:'01', title:'Ne povestești despre echipă', text:'Număr de persoane, dată aproximativă, locație și ce ai vrea să obțineți din experiență.' },
-  { n:'02', title:'Propunem formatul potrivit', text:'Venim cu o structură de activități, durată și estimare de buget, adaptate contextului.' },
-  { n:'03', title:'Confirmăm detaliile', text:'Agreăm programul, responsabilitățile și logistica înainte de eveniment.' },
-  { n:'04', title:'Echipa intră în joc', text:'Noi coordonăm activitățile, iar voi vă concentrați pe experiență și pe oameni.' }
+  {
+    n: '01',
+    title: 'Ne povestești despre echipă',
+    text: 'Număr de persoane, dată aproximativă, locație și ce ai vrea să obții din experiență.',
+    you: ['Câți sunteți și cine participă', 'Data și locația aproximativă', 'Ce vrei să schimbi sau să sărbătorești'],
+    us: ['Te ascultăm și punem întrebările potrivite', 'Notăm nevoile echipei', 'Revenim cu primele idei'],
+    cta: { label: 'Completează cererea', href: '/solicita-oferta/' }
+  },
+  {
+    n: '02',
+    title: 'Propunem formatul potrivit',
+    text: 'Venim cu o structură de activități, durată și estimare de buget, adaptate contextului.',
+    you: ['Citești propunerea și ne spui ce ți se potrivește', 'Poți ajusta activitățile și ordinea', 'Alegi un pachet sau îți construiești ziua'],
+    us: ['Alegem activitățile din bibliotecă', 'Propunem programul pe ore', 'Estimăm bugetul'],
+    cta: { label: 'Construiește ziua', href: '/configureaza-eveniment/' }
+  },
+  {
+    n: '03',
+    title: 'Confirmăm detaliile',
+    text: 'Agreăm programul, responsabilitățile și logistica înainte de eveniment.',
+    you: ['Confirmi programul final și numărul de participanți', 'Ne spui restricțiile alimentare și nevoile speciale', 'Aprobi oferta'],
+    us: ['Stabilim logistica și materialele', 'Alocăm facilitatorii', 'Îți trimitem programul confirmat'],
+    cta: { label: 'Scrie-ne', href: '/contact/' }
+  },
+  {
+    n: '04',
+    title: 'Echipa intră în joc',
+    text: 'Noi coordonăm activitățile, iar voi vă concentrați pe experiență și pe oameni.',
+    you: ['Vii cu echipa și te bucuri de zi', 'Participi, nu organizezi', 'Rămâi cu amintiri și idei pentru luni'],
+    us: ['Coordonăm fiecare moment', 'Ținem ritmul și energia', 'Încheiem cu un debrief'],
+    cta: { label: 'Vezi activitățile', href: '/activitati/' }
+  }
 ];
+
+const tiers = packages.map((pack) => ({
+  slug: pack.slug,
+  name: pack.name,
+  max: Number((pack.people.match(/\d+/) ?? [0])[0]),
+  price: pack.price,
+  duration: pack.duration,
+  featured: Boolean(pack.featured)
+}));
 ---
-<BaseLayout title="Cum funcționează | Teamflow" description="Pașii pentru organizarea unui eveniment de team building." active="how">
-  <section class="page-hero"><div class="container"><p class="eyebrow">PROCESUL</p><h1>Clar înainte.<br /><em>Memorabil în ziua lui.</em></h1><p>Organizarea bună nu trebuie să fie complicată. Iată cum trecem de la o idee la o experiență pentru echipă.</p></div></section>
-  <section class="section-pad"><div class="container steps-list">{steps.map((step) => <article class="step-row"><span class="step-number">{step.n}</span><div><h2>{step.title}</h2><p>{step.text}</p></div><span class="step-arrow">↗</span></article>)}</div></section>
-  <section class="final-cta"><div class="container final-cta-inner"><div><p class="eyebrow eyebrow-light">ÎNCEPEM SIMPLU</p><h2>Spune-ne pe scurt<br /><em>ce ai în minte.</em></h2></div><a class="button button-lime" href={withBase("/solicita-oferta/")}>Cere o ofertă <span>↗</span></a></div></section>
+<BaseLayout title="Cum funcționează | Teamflow" description="Pașii pentru organizarea unui eveniment de team building, de la prima discuție până în ziua evenimentului.">
+  <section class="page-hero how-hero">
+    <div class="container">
+      <p class="eyebrow">PROCESUL</p>
+      <h1>Clar înainte.<br /><em>Memorabil în ziua lui.</em></h1>
+      <p>Organizarea bună nu trebuie să fie complicată. Parcurge pașii și vezi ce faci tu și ce facem noi, de la prima idee până la ziua evenimentului.</p>
+    </div>
+  </section>
+
+  <section class="section-pad how-journey">
+    <div class="container stepper" data-stepper>
+      <div class="step-tabs" role="tablist" aria-label="Pașii procesului" aria-orientation="vertical">
+        <span class="step-track" aria-hidden="true"><span class="step-track-fill" data-track></span></span>
+        {steps.map((step, index) => (
+          <button class="step-tab" type="button" role="tab" id={`step-tab-${index}`} aria-controls={`step-panel-${index}`} aria-selected={index === 0 ? 'true' : 'false'} tabindex={index === 0 ? 0 : -1} data-index={index}>
+            <span class="step-dot">{step.n}</span>
+            <span class="step-tab-title">{step.title}</span>
+          </button>
+        ))}
+      </div>
+
+      <div class="step-stage">
+        {steps.map((step, index) => (
+          <article class="step-panel" role="tabpanel" id={`step-panel-${index}`} aria-labelledby={`step-tab-${index}`} data-panel={index} hidden={index !== 0 ? true : undefined}>
+            <p class="step-count">Pasul {index + 1} din {steps.length}</p>
+            <h2>{step.title}</h2>
+            <p class="step-lead">{step.text}</p>
+            <div class="step-columns">
+              <div class="step-col step-col-you">
+                <h3>Tu</h3>
+                <ul>{step.you.map((item) => <li><span aria-hidden="true">→</span>{item}</li>)}</ul>
+              </div>
+              <div class="step-col step-col-us">
+                <h3>Noi</h3>
+                <ul>{step.us.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
+              </div>
+            </div>
+            <a class="button button-dark" href={withBase(step.cta.href)}>{step.cta.label} <span aria-hidden="true">↗</span></a>
+          </article>
+        ))}
+        <div class="step-nav">
+          <button class="filter-button" type="button" data-prev>← Înapoi</button>
+          <span class="step-progress" aria-hidden="true"><span class="step-progress-bar" data-bar></span></span>
+          <button class="filter-button" type="button" data-next>Înainte →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad section-soft how-recommend">
+    <div class="container recommend" data-recommend data-tiers={JSON.stringify(tiers)}>
+      <div class="recommend-intro">
+        <p class="eyebrow">DE UNDE ÎNCEPEM</p>
+        <h2>Câți sunteți <span>în echipă?</span></h2>
+        <p class="body-large">Mută cursorul și vezi de la ce pachet ai putea porni. Prețurile sunt orientative, iar programul îl ajustăm împreună.</p>
+        <label class="recommend-label" for="team-size">Număr de participanți: <strong data-size-out>20</strong></label>
+        <input class="recommend-range" id="team-size" type="range" min="5" max="120" step="5" value="20" data-size />
+        <div class="recommend-scale" aria-hidden="true"><span>5</span><span>120+</span></div>
+      </div>
+      <div class="recommend-result" aria-live="polite">
+        <div class="recommend-cards">
+          {tiers.map((tier) => (
+            <a class:list={['recommend-card', { 'is-featured': tier.featured }]} href={withBase(`/pachete/${tier.slug}/`)} data-tier={tier.slug}>
+              <span class="recommend-name">{tier.name}</span>
+              <span class="recommend-meta">până la {tier.max} persoane · {tier.duration}</span>
+              <span class="recommend-price">MDL {tier.price.toLocaleString('ro-MD')}</span>
+            </a>
+          ))}
+        </div>
+        <p class="recommend-message" data-message></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta"><div class="container final-cta-inner"><div><p class="eyebrow eyebrow-light">ÎNCEPEM SIMPLU</p><h2>Spune-ne pe scurt<br /><em>ce ai în minte.</em></h2></div><a class="button button-lime" href={withBase("/solicita-oferta/")}>Cere o ofertă <span aria-hidden="true">↗</span></a></div></section>
+
+  <script>
+    const stepper = document.querySelector<HTMLElement>('[data-stepper]');
+    if (stepper) {
+      const tabs = Array.from(stepper.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+      const panels = Array.from(stepper.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+      const fill = stepper.querySelector<HTMLElement>('[data-track]')!;
+      const bar = stepper.querySelector<HTMLElement>('[data-bar]')!;
+      const prev = stepper.querySelector<HTMLButtonElement>('[data-prev]')!;
+      const next = stepper.querySelector<HTMLButtonElement>('[data-next]')!;
+      let current = 0;
+
+      const select = (index: number, focus = false) => {
+        current = Math.max(0, Math.min(tabs.length - 1, index));
+        tabs.forEach((tab, i) => {
+          const active = i === current;
+          tab.setAttribute('aria-selected', String(active));
+          tab.tabIndex = active ? 0 : -1;
+          tab.classList.toggle('is-done', i < current);
+        });
+        panels.forEach((panel, i) => {
+          panel.hidden = i !== current;
+        });
+        const ratio = tabs.length > 1 ? current / (tabs.length - 1) : 0;
+        fill.style.transform = `scaleY(${ratio})`;
+        bar.style.transform = `scaleX(${(current + 1) / tabs.length})`;
+        prev.disabled = current === 0;
+        next.disabled = current === tabs.length - 1;
+        if (focus) tabs[current].focus();
+      };
+
+      tabs.forEach((tab, i) => tab.addEventListener('click', () => select(i)));
+      prev.addEventListener('click', () => select(current - 1));
+      next.addEventListener('click', () => select(current + 1));
+      stepper.querySelector('[role="tablist"]')!.addEventListener('keydown', (event) => {
+        const key = (event as KeyboardEvent).key;
+        if (key === 'ArrowDown' || key === 'ArrowRight') { event.preventDefault(); select(current + 1, true); }
+        if (key === 'ArrowUp' || key === 'ArrowLeft') { event.preventDefault(); select(current - 1, true); }
+        if (key === 'Home') { event.preventDefault(); select(0, true); }
+        if (key === 'End') { event.preventDefault(); select(tabs.length - 1, true); }
+      });
+      stepper.classList.add('is-enhanced');
+      select(0);
+    }
+
+    const recommend = document.querySelector<HTMLElement>('[data-recommend]');
+    if (recommend) {
+      const tiers = JSON.parse(recommend.dataset.tiers ?? '[]') as { slug: string; name: string; max: number; price: number; duration: string }[];
+      const range = recommend.querySelector<HTMLInputElement>('[data-size]')!;
+      const out = recommend.querySelector<HTMLElement>('[data-size-out]')!;
+      const message = recommend.querySelector<HTMLElement>('[data-message]')!;
+      const cards = Array.from(recommend.querySelectorAll<HTMLElement>('[data-tier]'));
+
+      const update = () => {
+        const size = Number(range.value);
+        out.textContent = size >= 120 ? '120+' : String(size);
+        const match = tiers.find((tier) => size <= tier.max);
+        cards.forEach((card) => card.classList.toggle('is-recommended', card.dataset.tier === match?.slug));
+        recommend.classList.toggle('has-match', Boolean(match));
+        message.textContent = match
+          ? `Pentru ${size >= 120 ? '120+' : size} de persoane, ți-am porni de la pachetul ${match.name}: ${match.duration}, de la MDL ${match.price.toLocaleString('ro-MD')}.`
+          : 'Pentru grupuri mai mari de 100 de persoane construim un program la comandă. Scrie-ne și îl planificăm împreună.';
+      };
+      range.addEventListener('input', update);
+      update();
+    }
+  </script>
 </BaseLayout>

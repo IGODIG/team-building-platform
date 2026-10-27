@@ -2,7 +2,7 @@
 import { withBase } from '../utils/paths';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Contact | Teamflow" description="Contact pentru organizarea unui team building.">
-  <section class="page-hero"><div class="container"><p class="eyebrow">CONTACT</p><h1>Începem cu<br /><em>un salut.</em></h1><p>Datele de contact de mai jos sunt câmpuri demonstrative, de înlocuit înainte de lansarea publică.</p></div></section>
-  <section class="section-pad"><div class="container contact-grid"><article><p class="eyebrow">EMAIL</p><h2>hello@example.md</h2><p>Adresă demonstrativă, nu contact activ.</p></article><article><p class="eyebrow">TELEFON</p><h2>+373 XX XXX XXX</h2><p>Număr demonstrativ, de înlocuit.</p></article><article><p class="eyebrow">LOCAȚIE</p><h2>Moldova</h2><p>Zona de lucru și disponibilitatea se confirmă la lansare.</p></article></div><div class="container contact-cta"><h2>Ai deja o idee?</h2><a class="button button-dark" href={withBase("/solicita-oferta/")}>Cere o ofertă <span>↗</span></a></div></section>
+<BaseLayout active="contact" title="Contact | Teamflow" description="Contact pentru organizarea unui team building.">
+  <section class="page-hero"><div class="container"><p class="eyebrow">CONTACT</p><h1>Începem cu<br /><em>un salut.</em></h1><p>Scrie-ne sau sună-ne. Răspundem cât mai curând.</p></div></section>
+  <section class="section-pad"><div class="container contact-grid"><article><p class="eyebrow">EMAIL</p><h2><a href="mailto:teamflow@gmail.com">teamflow@gmail.com</a></h2><p>Scrie-ne pentru oferte și întrebări.</p></article><article><p class="eyebrow">TELEFON</p><h2><a href="tel:+37369669900">069 66 99 00</a></h2><p>Sună-ne pentru o discuție rapidă.</p></article><article><p class="eyebrow">LOCAȚIE</p><h2>Moldova</h2><p>Zona de lucru și disponibilitatea se confirmă la cerere.</p></article></div><div class="container contact-cta"><h2>Ai deja o idee?</h2><a class="button button-dark" href={withBase("/solicita-oferta/")}>Cere o ofertă <span>↗</span></a></div></section>
 </BaseLayout>
