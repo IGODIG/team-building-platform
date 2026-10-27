@@ -1112,7 +1112,6 @@ body > main { flex: 1 0 auto; }
 
 /* Packages: clearer cards, best seller badge and a focus effect on the package being considered. */
 .package-card { overflow: hidden; background: #fff; transition: transform 320ms var(--motion-spring, ease), box-shadow 320ms ease, border-color 240ms ease, opacity 240ms ease, background-color 240ms ease; }
-.package-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: linear-gradient(90deg, var(--lime), #a3c533); transform: scaleX(0); transform-origin: left; transition: transform 380ms var(--motion-spring, ease); }
 .package-overlay { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
 .package-card .button { position: relative; z-index: 2; }
 .package-card h3 { font-size: 34px; }
@@ -1126,7 +1125,6 @@ body > main { flex: 1 0 auto; }
 .package-featured { padding-top: 40px; }
 .package-card:hover, .package-card:focus-within { transform: translateY(-12px); border-color: #a3c533; box-shadow: 0 30px 70px rgba(16, 37, 31, .16), 0 0 0 4px rgba(216, 243, 106, .45); }
 .package-featured:hover, .package-featured:focus-within { transform: translateY(-16px); border-color: var(--lime); box-shadow: 0 34px 80px rgba(16, 37, 31, .3), 0 0 0 4px rgba(216, 243, 106, .6); }
-.package-card:hover::before, .package-card:focus-within::before { transform: scaleX(1); }
 .package-card:active { transform: translateY(-8px) scale(.99); }
 @media (hover: hover) {
   .package-grid:has(.package-card:hover) .package-card:not(:hover),
