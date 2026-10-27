@@ -1292,3 +1292,19 @@ body > main { flex: 1 0 auto; }
 .page-hero:not(.how-hero):not(.pack-hero):not(.career-hero)::before { content: ""; position: absolute; width: clamp(200px, 30vw, 400px); aspect-ratio: 1; right: -4%; top: 50%; transform: translateY(-50%); border: 1px solid rgba(163, 197, 51, .45); border-radius: 50%; box-shadow: 0 0 0 30px rgba(216, 243, 106, .12), 0 0 0 64px rgba(216, 243, 106, .07); pointer-events: none; }
 .page-hero .container { position: relative; }
 @media (max-width: 700px) { .page-hero:not(.how-hero):not(.pack-hero):not(.career-hero)::before { right: -30%; opacity: .7; } }
+
+/* Intro: bento-style number tiles under the statement, so the section reads as complete. */
+.intro-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: clamp(36px, 5vw, 64px); }
+.stat-tile { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; min-height: 190px; padding: 26px 24px; border-radius: 22px; border: 1px solid transparent; background: var(--soft); color: var(--forest); transition: transform 320ms var(--motion-spring, ease), box-shadow 320ms ease; }
+.stat-tile:hover { transform: translateY(-6px); box-shadow: 0 20px 44px rgba(16, 37, 31, .1); }
+.stat-lime { background: var(--lime); }
+.stat-dark { background: var(--forest); color: #fff; }
+.stat-value { display: flex; align-items: baseline; gap: 8px; font-family: var(--display); font-weight: 800; font-size: clamp(52px, 5.4vw, 72px); line-height: 1; letter-spacing: -.04em; }
+.stat-value small { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0; opacity: .7; }
+.stat-label { max-width: 220px; font-size: 14px; line-height: 1.55; font-weight: 500; opacity: .85; }
+.stat-arrow { position: absolute; right: 20px; top: 20px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--lime); color: var(--forest); font-size: 16px; transition: transform 260ms var(--motion-spring, ease); }
+.stat-tile:hover .stat-arrow { transform: rotate(45deg); }
+.stat-tile:active { transform: scale(.97); }
+@media (max-width: 900px) { .intro-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .stat-tile { min-height: 150px; } .stat-value { font-size: 48px; } }
+.stat-value small { white-space: nowrap; }
