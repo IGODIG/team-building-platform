@@ -1333,3 +1333,9 @@ body > main { flex: 1 0 auto; }
 .act-pager-link:hover { border-color: #a3c533; box-shadow: 0 14px 34px rgba(16, 37, 31, .08); transform: translateY(-3px); }
 .act-pager-next { justify-content: flex-end; text-align: right; }
 @media (max-width: 600px) { .act-pager { grid-template-columns: minmax(0, 1fr); } }
+
+/* QA pass: nothing below 11px. */
+.package-price small { font-size: 12px; }
+.footer-label { font-size: 11px; }
+.hero-foot, .hero-side-note { font-size: 11px; }
+.detail-facts span { font-size: 12px; padding: 8px 14px; }

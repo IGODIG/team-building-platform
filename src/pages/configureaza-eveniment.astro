@@ -12,7 +12,7 @@ const packageDays = Object.fromEntries(
   <section class="section-pad">
     <div class="container builder" data-builder>
       <div class="builder-library">
-        <p class="eyebrow">1 · BIBLIOTECA DE ACTIVITĂȚI</p>
+        <p class="eyebrow">1 · BIBLIOTECA DE ACTIVITĂȚI</p><h2 class="sr-only">Biblioteca de activități</h2>
         <div class="filter-bar" role="group" aria-label="Filtrare activități" data-lib-filters>
           <button class="filter-button is-active" type="button" aria-pressed="true" data-filter="all">Toate</button>
           {activityCategories.map((category) => <button class="filter-button" type="button" aria-pressed="false" data-filter={category}>{category}</button>)}
@@ -60,7 +60,7 @@ const packageDays = Object.fromEntries(
       </div>
       <form class="contact-form" data-form data-builder-form>
         <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
-        <textarea class="sr-only" name="plan" tabindex="-1" aria-hidden="true" required data-plan></textarea>
+        <textarea class="sr-only" name="plan" aria-label="Planul zilei" tabindex="-1" aria-hidden="true" required data-plan></textarea>
         <div class="form-row">
           <label>Numele tău<input name="name" autocomplete="name" required placeholder="Prenume și nume" /></label>
           <label>Email de contact<input type="email" name="email" autocomplete="email" required placeholder="nume@companie.md" /></label>

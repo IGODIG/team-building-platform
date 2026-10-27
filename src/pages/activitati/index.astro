@@ -7,7 +7,7 @@ import { activities, activityCategories } from '../../data/content';
   <section class="page-hero"><div class="container"><p class="eyebrow">ACTIVITĂȚI</p><h1>Găsește formatul<br /><em>echipei tale.</em></h1><p>De la competiții energice la exerciții de colaborare. Alege direcția și adaptăm detaliile împreună.</p></div></section>
   <section class="section-pad"><div class="container">
     <div class="filter-bar" role="group" aria-label="Filtrare activități" data-activity-filters><span class="eyebrow" aria-hidden="true">FILTRARE</span><button class="filter-button is-active" type="button" aria-pressed="true" data-filter="all">Toate</button>{activityCategories.map((category) => <button class="filter-button" type="button" aria-pressed="false" data-filter={category}>{category}</button>)}</div>
-    <div class="activity-grid catalog-grid">{activities.map((activity) => <div data-activity-card data-category={activity.category}><ActivityCard activity={activity} /></div>)}</div>
+    <h2 class="sr-only">Toate activitățile</h2><div class="activity-grid catalog-grid">{activities.map((activity) => <div data-activity-card data-category={activity.category}><ActivityCard activity={activity} /></div>)}</div>
     <p class="empty-state" data-empty-state role="status" hidden>Nu am găsit activități în această categorie.</p>
     <p class="sr-only" data-filter-status role="status" aria-live="polite"></p>
   </div></section>
