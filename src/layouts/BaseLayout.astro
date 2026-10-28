@@ -33,6 +33,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:url" content={canonical} />
     <meta name="form-endpoint" content={import.meta.env.PUBLIC_FORM_ENDPOINT ?? ''} />
     <title>{title}</title>
+    <slot name="head" />
   </head>
   <body>
     <a class="skip-link" href="#main">Sari la conținut</a>
