@@ -124,8 +124,9 @@ body { overflow-x: clip; }
   animation: orbit-drift 18s linear infinite;
 }
 .hero::after {
-  content: "LET’S PLAY  ·  THINK TOGETHER  ·  MAKE IT COUNT  ·  ";
-  position: absolute; z-index: 1; pointer-events: none; right: -22px; bottom: 18%;
+  content: "JOACĂ-TE  ·  GÂNDEȘTE ÎMPREUNĂ";
+  white-space: nowrap;
+  position: absolute; z-index: 1; pointer-events: none; right: 24px; bottom: 18%;
   padding: 13px 25px; border-radius: 999px; background: var(--lime); color: var(--forest);
   font-size: 10px; font-weight: 800; letter-spacing: .16em; transform: rotate(-7deg);
   box-shadow: 0 14px 40px rgba(0,0,0,.18); animation: sticker-float 5s ease-in-out infinite;
@@ -952,7 +953,10 @@ body { overflow-x: clip; }
 .skip-link:focus { top: 12px; }
 .demo-note, .form-legal { color: #5f6d63; font-size: 11px; }
 .package-featured .demo-note { color: #c3d0c6; }
-.hero::after { content: "LET’S PLAY  ·  THINK TOGETHER  ·  MAKE IT COUNT  ·  " / ""; }
+.hero::after { content: "JOACĂ-TE  ·  GÂNDEȘTE ÎMPREUNĂ" / ""; }
+@media (max-width: 700px) {
+  .hero::after { content: "JOACĂ-TE  ·  GÂNDEȘTE" / ""; right: 12px; padding: 10px 18px; }
+}
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .contact-form label.career-consent{flex-direction:row;align-items:flex-start}
 .contact-form .career-consent input[type="checkbox"]{width:16px;min-width:16px;height:16px;min-height:16px;padding:0;margin:5px 0 0;flex:0 0 16px}
