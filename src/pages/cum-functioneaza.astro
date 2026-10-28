@@ -70,7 +70,7 @@ const tiers = packages.map((pack) => ({
 
       <div class="step-stage">
         {steps.map((step, index) => (
-          <article class="step-panel" role="tabpanel" id={`step-panel-${index}`} aria-labelledby={`step-tab-${index}`} data-panel={index} hidden={index !== 0 ? true : undefined}>
+          <div class="step-panel" role="tabpanel" id={`step-panel-${index}`} aria-labelledby={`step-tab-${index}`} data-panel={index} hidden={index !== 0 ? true : undefined}>
             <p class="step-count">Pasul {index + 1} din {steps.length}</p>
             <h2>{step.title}</h2>
             <p class="step-lead">{step.text}</p>
@@ -85,7 +85,7 @@ const tiers = packages.map((pack) => ({
               </div>
             </div>
             <a class="button button-dark" href={withBase(step.cta.href)}>{step.cta.label} <span aria-hidden="true">↗</span></a>
-          </article>
+          </div>
         ))}
         <div class="step-nav">
           <button class="filter-button" type="button" data-prev>← Înapoi</button>
