@@ -1,6 +1,6 @@
 # Team-building platform · Astro + TypeScript
 
-Public-facing demo website for a team-building business. Built with Astro, TypeScript, and responsive CSS.
+Public website for Teamflow, a team-building business (content in Romanian). Built with Astro, TypeScript, and responsive CSS.
 
 ## Stack
 - Astro 7, static output, self-hosted fonts (Fontsource), sitemap
@@ -10,6 +10,7 @@ Public-facing demo website for a team-building business. Built with Astro, TypeS
 - Static activity and package detail routes generated from typed data
 
 ## Run locally
+Requires Node >=22.23.4 (`.nvmrc` pins 24).
 ```bash
 npm install
 npm run dev
@@ -25,7 +26,7 @@ npm run preview
 ```
 
 ## Current scope
-This repository contains the public website only. It does not include a management dashboard, authentication, database, CRM, real reservations, payment processing, or a connected form backend. Forms are client-side demos and explicitly tell the visitor that information was not transmitted or saved.
+This repository contains the public website only. It does not include a management dashboard, authentication, database, CRM, real reservations or payment processing. The forms post to an external form service (Formspree) configured through `PUBLIC_FORM_ENDPOINT`; without it they stay in demo mode.
 
 ## Before publishing
 - Confirm the final brand name and logo. “Teamflow” is a temporary demo identity, not a confirmed brand.
@@ -39,5 +40,10 @@ This repository contains the public website only. It does not include a manageme
 
 The quote, event configurator, and career forms are ready for an HTTPS JSON endpoint. Copy `.env.example` to `.env`, set `PUBLIC_FORM_ENDPOINT`, and use an endpoint that accepts `POST` requests with the form fields. When the variable is empty, the forms intentionally remain in demo mode.
 
-## Automated build
-GitHub Actions runs `npm install` and `npm run build` on pushes and pull requests to `main`.
+## Deploy
+The site is published to GitHub Pages at https://igodig.github.io/team-building-platform/ by `.github/workflows/build.yml`. Pages must use the **GitHub Actions** source. Every push to `main` runs `npm ci` and `npm run build` (type check + build) and then deploys; pull requests to `main` only run the build. If the build fails, the error is shown as an annotation on the workflow run.
+
+The form endpoint comes from the repository variable `PUBLIC_FORM_ENDPOINT`, falling back to the value in the workflow file.
+
+## Branches
+Work on a short-lived branch, open a pull request into `main`, and merge once the build is green. `main` is always what is live.
