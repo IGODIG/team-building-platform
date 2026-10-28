@@ -1,13 +1,165 @@
 ---
 import { withBase } from '../../utils/paths';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { packages } from '../../data/content';
+import ActivityCard from '../../components/ActivityCard.astro';
+import PackageCard from '../../components/PackageCard.astro';
+import { activities, packages } from '../../data/content';
+
 export function getStaticPaths() {
   return packages.map((pack) => ({ params: { slug: pack.slug }, props: { pack } }));
 }
+
 const { pack } = Astro.props;
+
+const clock = (total: number) => {
+  const m = ((total % 1440) + 1440) % 1440;
+  return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+};
+const length = (minutes: number) => {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return h && m ? `${h} h ${m} min` : h ? `${h} h` : `${m} min`;
+};
+
+const [startH, startM] = pack.sampleStart.split(':').map(Number);
+let cursor = startH * 60 + startM;
+const program = pack.sampleDay.map((item) => {
+  const from = cursor;
+  cursor += item.minutes;
+  return { ...item, from: clock(from), to: clock(cursor), label: length(item.minutes) };
+});
+const totalMinutes = pack.sampleDay.reduce((sum, item) => sum + item.minutes, 0);
+const includedActivities = pack.sampleDay
+  .filter((item) => item.slug)
+  .map((item) => activities.find((activity) => activity.slug === item.slug))
+  .filter((activity): activity is (typeof activities)[number] => Boolean(activity));
+const others = packages.filter((item) => item.slug !== pack.slug);
+const builderHref = `${withBase('/configureaza-eveniment/')}?pachet=${pack.slug}`;
+
+const excluded = ['Transportul participanților', 'Locația evenimentului', 'Cateringul și băuturile', 'Servicii suplimentare (foto, video, premii)'];
+const faq = [
+  { q: 'Putem schimba activitățile din pachet?', a: 'Da. Programul de mai sus este un exemplu. Îl poți ajusta în constructorul de zi: schimbi activitățile, ordinea și duratele, apoi ne trimiți varianta ta.' },
+  { q: 'Prețul este final?', a: 'Nu. Prețul afișat este orientativ. Oferta finală ține cont de numărul de participanți, locație, obiective și logistică.' },
+  { q: 'Ce nu este inclus în pachet?', a: 'Transportul, locația, cateringul și serviciile suplimentare se discută separat și se adaugă în oferta finală, dacă ai nevoie de ele.' },
+  { q: 'Cum decurge organizarea?', a: 'Ne spui câți sunteți și ce vrei să obții, propunem formatul, confirmăm detaliile și apoi echipa intră în joc. Pașii sunt descriși pe pagina „Cum funcționează”.' },
+  { q: 'Ce se întâmplă dacă ne răzgândim sau se schimbă data?', a: 'Condițiile sunt descrise în politica de anulare, iar detaliile concrete se stabilesc în oferta confirmată.' }
+];
 ---
 <BaseLayout title={`Pachet ${pack.name} | Teamflow`} description={pack.summary} active="packages">
-  <section class="page-hero"><div class="container"><a class="back-link" href={withBase("/pachete/")}>← Toate pachetele</a><p class="eyebrow">PACHET {pack.name.toUpperCase()}</p><h1>{pack.name}<em>.</em></h1><p>{pack.summary}</p><div class="detail-facts"><span>{pack.duration}</span><span>{pack.people}</span></div><div class="detail-price">MDL {pack.price.toLocaleString('ro-MD')} <small>/ {pack.unit} · preț demonstrativ</small></div><a class="button button-dark" href={withBase("/solicita-oferta/")}>Solicită oferta finală <span>↗</span></a></div></section>
-  <section class="section-pad"><div class="container detail-columns"><div><p class="eyebrow">CE PRIMEȘTI</p><h2>Totul începe cu <span>un plan clar.</span></h2><p class="body-large">Acest pachet este un exemplu de structură. Oferta finală va ține cont de numărul de participanți, locație, obiective și logistică.</p></div><div class="includes-panel"><h3>Inclus în pachet</h3><ul>{pack.includes.map((item) => <li><span>✓</span>{item}</li>)}</ul><p class="demo-note">Prețul și conținutul trebuie confirmate înainte de publicare comercială.</p></div></div></section>
+  <section class="page-hero pack-hero">
+    <div class="container pack-hero-grid">
+      <div class="pack-hero-copy">
+        <a class="back-link" href={withBase("/pachete/")}><span aria-hidden="true">←</span> Toate pachetele</a>
+        <p class="eyebrow">PACHET {pack.name.toUpperCase()}</p>
+        <h1>{pack.name}<em>.</em></h1>
+        {pack.featured && <p class="pack-badge"><span aria-hidden="true">★</span> Best seller</p>}
+        <p>{pack.summary}</p>
+        <div class="detail-facts"><span>{pack.duration}</span><span>{pack.people}</span></div>
+        <div class="pack-actions">
+          <a class="button button-dark" href={withBase("/solicita-oferta/")}>Solicită oferta finală <span aria-hidden="true">↗</span></a>
+          <a class="button button-outline" href={builderHref}>Personalizează în constructor <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <aside class="pack-hero-card" aria-label={`Prețul pachetului ${pack.name}`}>
+        <p class="eyebrow">PREȚ ORIENTATIV</p>
+        <p class="pack-hero-price">MDL {pack.price.toLocaleString('ro-MD')}</p>
+        <p class="pack-hero-unit">/ {pack.unit} · preț demonstrativ</p>
+        <ul>{pack.includes.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="pack-stats">
+    <div class="container pack-stats-grid">
+      <div><span>Durată</span><strong>{pack.duration}</strong></div>
+      <div><span>Participanți</span><strong>{pack.people}</strong></div>
+      <div><span>Momente în program</span><strong>{program.length}</strong></div>
+      <div><span>Activități din bibliotecă</span><strong>{includedActivities.length}</strong></div>
+    </div>
+  </section>
+
+  <section class="section-pad section-soft">
+    <div class="container pack-program">
+      <div class="pack-program-main">
+        <p class="eyebrow">PROGRAMUL ZILEI</p>
+        <h2>Cum poate arăta <span>ziua echipei.</span></h2>
+        <p class="body-large">Un exemplu de program pentru pachetul {pack.name}, începând de la {pack.sampleStart}. Durata totală: {length(totalMinutes)}. Îl poți schimba oricând în constructor.</p>
+        <ol class="timeline pack-timeline">
+          {program.map((item) => (
+            <li class:list={['timeline-item', { 'is-break': item.kind === 'break' }]}>
+              <span class="timeline-time">{item.from}</span>
+              <div class="timeline-body">
+                <strong>{item.title}</strong>
+                <span class="timeline-range">{item.from}–{item.to} · {item.label}</span>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <a class="button button-dark" href={builderHref}>Deschide programul în constructor <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="pack-program-side">
+        <div class="includes-panel">
+          <h3>Inclus în pachet</h3>
+          <ul>{pack.includes.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
+        </div>
+        <div class="includes-panel pack-excluded">
+          <h3>De discutat separat</h3>
+          <ul>{excluded.map((item) => <li><span aria-hidden="true">+</span>{item}</li>)}</ul>
+          <p class="demo-note">Prețul și conținutul trebuie confirmate înainte de publicare comercială.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="benefits-section section-pad">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">POTRIVIT PENTRU</p><h2>Pentru cine <span>este pachetul {pack.name}.</span></h2></div>
+      </div>
+      <div class="benefit-grid">
+        {pack.idealFor.map((item, index) => (
+          <article class="benefit-item"><span class="benefit-number">{String(index + 1).padStart(2, '0')}</span><h3>{item.title}</h3><p>{item.text}</p></article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {includedActivities.length > 0 && (
+    <section class="activities-section section-pad section-soft">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">ACTIVITĂȚI ÎN PROGRAM</p><h2>Ce vei <span>face concret.</span></h2></div>
+          <a class="text-link heading-link" href={withBase("/activitati/")}>Toată biblioteca <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="activity-grid">{includedActivities.map((activity) => <ActivityCard activity={activity} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="section-pad">
+    <div class="container pack-faq">
+      <div class="pack-faq-intro">
+        <p class="eyebrow">ÎNTREBĂRI FRECVENTE</p>
+        <h2>Ce ne întreabă <span>echipele.</span></h2>
+        <p class="body-large">Nu găsești răspunsul? Scrie-ne la <a class="text-link" href="mailto:teamflow@gmail.com">teamflow@gmail.com</a> sau sună la <a class="text-link" href="tel:+37369669900">069 66 99 00</a>.</p>
+      </div>
+      <div class="faq-list">
+        {faq.map((item) => (
+          <details class="faq-item"><summary>{item.q}</summary><p>{item.a}{item.q.includes('răzgândim') && <> <a class="text-link" href={withBase("/politica-de-anulare/")}>Politica de anulare</a></>}</p></details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad section-soft pack-others">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">COMPARĂ</p><h2>Alte <span>pachete.</span></h2></div>
+        <a class="text-link heading-link" href={withBase("/pachete/")}>Toate pachetele <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="package-grid">{others.map((item) => <PackageCard pack={item} />)}</div>
+    </div>
+  </section>
+
+  <section class="final-cta"><div class="container final-cta-inner"><div><p class="eyebrow eyebrow-light">URMĂTORUL PAS</p><h2>Hai să construim ziua<br />cu <em>pachetul {pack.name}.</em></h2></div><a class="button button-lime" href={withBase("/solicita-oferta/")}>Solicită oferta finală <span aria-hidden="true">↗</span></a></div></section>
 </BaseLayout>

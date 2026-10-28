@@ -7,13 +7,15 @@ interface Props {
 }
 
 const { pack } = Astro.props;
+const href = withBase(`/pachete/${pack.slug}/`);
 ---
 <article class:list={['package-card', { 'package-featured': pack.featured }]}>
-  {pack.featured && <span class="package-tag">Cel mai ales în demo</span>}
+  <a class="package-overlay" href={href} tabindex="-1" aria-hidden="true"></a>
+  {pack.featured && <span class="package-tag"><span aria-hidden="true">★</span> Best seller</span>}
   <p class="eyebrow">PACHET {pack.name.toUpperCase()}</p><h3>{pack.name}</h3><p class="package-summary">{pack.summary}</p>
   <div class="package-price"><span class="currency">MDL</span> {pack.price.toLocaleString('ro-MD')} <small>/ {pack.unit}</small></div>
-  <p class="package-meta">{pack.duration} <span>·</span> {pack.people}</p>
+  <div class="package-chips"><span>{pack.duration}</span><span>{pack.people}</span></div>
   <ul>{pack.includes.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
-  <a class:list={['button', pack.featured ? 'button-lime' : 'button-outline']} href={withBase(`/pachete/${pack.slug}/`)}>Vezi pachetul <span aria-hidden="true">↗</span></a>
+  <a class:list={['button', pack.featured ? 'button-lime' : 'button-outline']} href={href}>Alege {pack.name} <span aria-hidden="true">↗</span></a>
   <p class="demo-note">Preț demonstrativ, de confirmat în oferta finală.</p>
 </article>

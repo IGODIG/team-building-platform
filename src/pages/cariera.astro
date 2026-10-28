@@ -4,13 +4,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout title="Carieră | Teamflow" description="Descoperă oportunități de colaborare cu Teamflow și trimite-ne CV-ul tău.">
   <section class="page-hero career-hero">
-    <div class="container">
-      <p class="eyebrow">CARIERĂ</p>
-      <h1>Hai să construim<br /><em>experiențe împreună.</em></h1>
-      <p>Căutăm oameni care comunică bine, își asumă responsabilități și le place să aducă echipele împreună.</p>
-      <div class="career-hero-actions">
-        <a class="button button-dark" href="#career-application">Aplică spontan <span aria-hidden="true">↘</span></a>
-        <a class="career-secondary-link" href={withBase("/contact/")}>Vorbește cu noi <span aria-hidden="true">↗</span></a>
+    <div class="container career-hero-grid">
+      <div class="career-hero-copy">
+        <p class="eyebrow">CARIERĂ</p>
+        <h1>Hai să construim<br /><em>experiențe împreună.</em></h1>
+        <p>Căutăm oameni care comunică bine, își asumă responsabilități și le place să aducă echipele împreună.</p>
+        <div class="career-hero-actions">
+          <a class="button button-dark" href="#career-application">Aplică spontan <span aria-hidden="true">↘</span></a>
+          <a class="button button-outline" href={withBase("/contact/")}>Vorbește cu noi <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="career-hero-visual">
+        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=75" alt="Colegi care lucrează împreună la o masă" width="900" height="720" />
+        <span class="career-hero-badge">Facilitatori · Coordonatori · Logistică</span>
       </div>
     </div>
   </section>
@@ -23,6 +29,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <article class="career-empty">
         <span class="career-empty-icon" aria-hidden="true">↗</span>
         <div><h3>Nu avem poziții deschise momentan</h3><p>Suntem bucuroși să aflăm despre tine și să te contactăm dacă apare o oportunitate potrivită.</p></div>
+        <a class="text-link career-empty-link" href="#career-application">Trimite CV-ul <span aria-hidden="true">→</span></a>
       </article>
     </div>
   </section>
@@ -36,7 +43,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="aside-note"><span>02</span><p>Responsabilitate și inițiativă</p></div>
         <div class="aside-note"><span>03</span><p>Dorința de a crea experiențe bune</p></div>
       </div>
-      <form class="contact-form career-form" data-demo-form>
+      <form class="contact-form career-form" data-form>
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <div class="form-row">
           <label>Nume și prenume<input name="name" autocomplete="name" required placeholder="Numele tău" /></label>
           <label>Email<input type="email" name="email" autocomplete="email" required placeholder="nume@email.com" /></label>
@@ -48,12 +56,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <label>Despre tine<textarea name="message" rows="4" placeholder="Experiență, abilități sau ce te atrage la Teamflow"></textarea></label>
         <label class="career-file-label">CV (PDF sau DOCX)
           <input type="file" name="cv" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-          <span class="career-file-help">În această versiune demonstrativă, fișierul rămâne doar în browser și nu este încărcat.</span>
+          <span class="career-file-help">Opțional. Poți aplica și fără CV.</span>
         </label>
         <label class="career-consent"><input type="checkbox" name="privacy" required /> <span>Confirm că am citit informațiile despre <a href={withBase("/confidentialitate/")}>confidențialitate</a>.</span></label>
         <button class="button button-dark career-submit" type="submit">Trimite candidatura <span aria-hidden="true">↗</span></button>
         <p class="form-status" data-form-status role="status" aria-live="polite"></p>
-        <p class="form-legal">Formular demonstrativ: candidatura și CV-ul nu sunt trimise sau salvate. Trimiterea reală va fi conectată ulterior la sistemul de recrutare.</p>
+        <p class="form-legal">Folosim datele doar pentru a evalua candidatura ta.</p>
       </form>
     </div>
   </section>
